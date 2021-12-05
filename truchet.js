@@ -14,7 +14,7 @@ function truchet_tile(x,y,s)
 	noFill();
 	stroke(lerpColor(c1, c2, noise(t/2,x/300 - t/2,y/300)));
 	//stroke(lerpColor(c1, c2, v));
-	strokeWeight(s/10);
+	strokeWeight(s/6);
 
 	if (v < 0.5)
 	{
@@ -60,10 +60,10 @@ function truchet(x,y,w,h,c)
 
 return function()
 {
-	background(0,30);
+	background(0,50);
 	noStroke();
 
-	const s = 32;
+	const s = 48;
 	//translate(s*sin(t), s*cos(t));
 	noFill();
 	strokeJoin(ROUND);
