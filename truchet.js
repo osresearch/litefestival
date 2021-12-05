@@ -1,6 +1,7 @@
-let Truchet = function() {
-let c1;
-let c2;
+sketches.push(function() {
+let c1 = color(256,256,256);
+let c2 = color(0,20,250);
+
 let t = 0;
 
 function truchet_tile(x,y,s)
@@ -57,13 +58,7 @@ function truchet(x,y,w,h,c)
 	pop();
 }
 
-return class {
-constructor() {
-	c1 = color(256,256,256);
-	c2 = color(0,20,250);
-}
-
-draw()
+return function()
 {
 	background(0,30);
 	noStroke();
@@ -85,5 +80,4 @@ draw()
 
 	t += 0.05;
 }
-}
-}();
+});

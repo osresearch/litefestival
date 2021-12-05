@@ -1,7 +1,7 @@
 //by Andy Wallace
 //using https://osresearch.github.io/p5.projection/
 
-let Andy1 = function() {
+sketches.push(function() {
 let time_per_mode = 30 * 1000	//millis
 let speed = 0.01;
 
@@ -28,16 +28,10 @@ let mode = 0
 
 let next_mode_switch = time_per_mode;
 
-let bgCol;
-let blackCol;
+let bgCol=color(213, 209, 200)
+let blackCol=color(45, 45, 45)
 
-return class {
-constructor(){
-	bgCol=color(213, 209, 200)
-	blackCol=color(45, 45, 45)
-}
-
-draw(){
+return function() {
 
 	t+=speed 
 	let s=50
@@ -203,5 +197,4 @@ draw(){
 // fill(p>0?c:s)
 // circle(x+s/2,y+s/2,p*s*.9)}}
 // //#p5js #つぶやきProcessing
-}
-}();
+});
