@@ -1,49 +1,48 @@
 //by Andy Wallace
 //using https://osresearch.github.io/p5.projection/
 
-time_per_mode = 30 * 1000	//millis
-speed = 0.01;
+let Andy1 = function() {
+let time_per_mode = 30 * 1000	//millis
+let speed = 0.01;
 
 
 
-t=0;
-let mat = new ProjectionMatrix();
+let t=0;
 
-cell_w = 177
-cell_h = 364
+let cell_w = 177
+let cell_h = 364
 
-num_cols = 8
-num_rows = 3
+let num_cols = 8
+let num_rows = 3
 
-num_mini_cols = 3;
-num_mini_rows = 4;
+let num_mini_cols = 3;
+let num_mini_rows = 4;
 
-mini_w = cell_w / num_mini_cols;
-mini_h = cell_h / num_mini_rows;
+let mini_w = cell_w / num_mini_cols;
+let mini_h = cell_h / num_mini_rows;
 
-col_pos = [0, 204, 504, 708, 1047, 1249, 1550, 1752]
-row_pos = [0, 372, 765]
+let col_pos = [0, 204, 504, 708, 1047, 1249, 1550, 1752]
+let row_pos = [0, 372, 765]
 
-mode = 0
+let mode = 0
 
-next_mode_switch = time_per_mode;
+let next_mode_switch = time_per_mode;
 
-function setup(){
-	createCanvas(w=1920,h=1080, WEBGL);
-	mat.edit = true;
+let bgCol;
+let blackCol;
 
+return class {
+constructor(){
 	bgCol=color(213, 209, 200)
 	blackCol=color(45, 45, 45)
 }
 
-function draw(){
+draw(){
 
 	t+=speed 
-	s=50
+	let s=50
 	noStroke()
 	background(bgCol)
-
-	mat.apply();
 
 	if (millis() > next_mode_switch){
 		mode++;
@@ -52,19 +51,19 @@ function draw(){
 	}
 	
 
-	for (c=0; c<num_cols; c++){
-		for (r=0; r<num_rows; r++){
-			for(c2=0; c2<num_mini_cols; c2++){
-				for (r2=0; r2<num_mini_rows; r2++){
-					x = col_pos[c] + c2 * mini_w
-					y = row_pos[r] + r2 * mini_h
+	for (let c=0; c<num_cols; c++){
+		for (let r=0; r<num_rows; r++){
+			for(let c2=0; c2<num_mini_cols; c2++){
+				for (let r2=0; r2<num_mini_rows; r2++){
+					let x = col_pos[c] + c2 * mini_w
+					let y = row_pos[r] + r2 * mini_h
 
-					p=(t + (x+y)*.0025)%2-1
+					let p=(t + (x+y)*.0025)%2-1
 
 					//p = t%2 - 1
 					//p = 0.55
 
-					offset = p * 8;
+					let offset = p * 8;
 
 					//circles
 					if (mode == 0){
@@ -102,11 +101,11 @@ function draw(){
 					    	vertex(0,0)
 
 					    	if (p< -0.5){
-					    		x1 = map(p, -1, -0.5, 0, mini_w, true)
-					    		y1 = 0
+					    		let x1 = map(p, -1, -0.5, 0, mini_w, true)
+					    		let y1 = 0
 
-					    		x2 = 0
-					    		y2 = map(p, -1, -0.5, 0, mini_h, true)
+					    		let x2 = 0
+					    		let y2 = map(p, -1, -0.5, 0, mini_h, true)
 
 					    		vertex(x1,y1)
 					    		vertex(x2,y2);
@@ -114,11 +113,11 @@ function draw(){
 					    	else{
 					    		vertex(mini_w, 0)
 
-					    		x1 = mini_w
-					    		y1 = map(p, -0.5, 0, 0, mini_h, true)
+					    		let x1 = mini_w
+					    		let y1 = map(p, -0.5, 0, 0, mini_h, true)
 
-					    		x2 = map(p, -0.5, 0, 0, mini_w, true)
-					    		y2 = mini_h
+					    		let x2 = map(p, -0.5, 0, 0, mini_w, true)
+					    		let y2 = mini_h
 
 					    		vertex(x1,y1)
 					    		vertex(x2,y2);
@@ -132,11 +131,11 @@ function draw(){
 					    	if (p < 0.5){
 					    		vertex(0, 0)
 
-					    		x1 = 0
-					    		y1 = map(p, 0, 0.5, mini_h, 0, true)
+					    		let x1 = 0
+					    		let y1 = map(p, 0, 0.5, mini_h, 0, true)
 
-					    		x2 = map(p, 0, 0.5, 0, mini_w, true)
-					    		y2 = mini_h
+					    		let x2 = map(p, 0, 0.5, 0, mini_w, true)
+					    		let y2 = mini_h
 
 					    		vertex(x1,y1)
 					    		vertex(x2, y2)
@@ -145,11 +144,11 @@ function draw(){
 					    	}
 
 					    	else{
-					    		x1 = map(p, 0.5, 1, 0, mini_w, true)
-					    		y1 = 0
+					    		let x1 = map(p, 0.5, 1, 0, mini_w, true)
+					    		let y1 = 0
 
-					    		x2 = mini_w
-					    		y2 = map(p, 0.5, 1, mini_h, 0, true)
+					    		let x2 = mini_w
+					    		let y2 = map(p, 0.5, 1, mini_h, 0, true)
 
 					    		vertex(x1,y1)
 					    		vertex(x2,y2)
@@ -204,3 +203,5 @@ function draw(){
 // fill(p>0?c:s)
 // circle(x+s/2,y+s/2,p*s*.9)}}
 // //#p5js #つぶやきProcessing
+}
+}();

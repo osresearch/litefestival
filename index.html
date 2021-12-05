@@ -14,6 +14,36 @@
        You might only need one of these values set. -->
   <style> body { padding: 0; margin: 0; } </style>
 </head>
+<script>
+let a;
+let mat = new ProjectionMatrix(null,null,"lites2021");
+let pg;
+
+function setup()
+{
+	createCanvas(displayWidth, displayHeight, WEBGL);
+	pg = createGraphics(1920,1080);
+
+	a = new Andy1();
+	mat.load();
+	mat.edit = 1;
+}
+
+function draw()
+{
+	const orig = background(0);
+	const orig_renderer = orig._renderer;
+	orig._renderer = pg._renderer;
+
+	// draw into pg
+	a.draw();
+
+	// copy pg to the output
+	orig._renderer = orig_renderer;
+	mat.apply();
+	image(pg, 0, 0);
+}
+</script>
 
 <body>
 </body>
