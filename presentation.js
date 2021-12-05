@@ -5,7 +5,8 @@ let t = 0;
 
 let sketches = [];
 let art = [];
-let pg = [];
+let a_pg;
+let b_pg;
 let a_art = 0;
 let b_art = 1;
 
@@ -17,16 +18,20 @@ let start = 0;
 function setup()
 {
 	createCanvas(displayWidth, displayHeight, WEBGL);
-	frameRate(25);
+	frameRate(50);
+
+	a_pg = createGraphics(1920,1080);
+	b_pg = createGraphics(1920,1080);
+
+	a_pg.background(0);
+	b_pg.background(0);
 
 	for(let sketch of sketches)
 	{
 		art.push(sketch());
-		pg.push(createGraphics(1920,1080));
 	}
 
 	mat.load();
-	mat.edit = 1;
 }
 
 function draw()
@@ -38,15 +43,22 @@ function draw()
 	const orig_renderer = orig._renderer;
 
 	// draw into ag
-	orig._renderer = pg[a_art]._renderer;
+	orig._renderer = a_pg._renderer;
+	push();
 	art[a_art]();
+	pop();
 
 	// render b if we are cross fading
-	if (t > hold_time)
+	if (t > hold_time && b_art < art.length)
 	{
 		// draw into bg
-		orig._renderer = pg[b_art]._renderer;
+		if (!b_pg)
+			b_pg = createGraphics(1920,1080);
+
+		orig._renderer = b_pg._renderer;
+		push();
 		art[b_art]();
+		pop();
 	}
 
 	// switch back to the webgl renderer and
@@ -54,25 +66,32 @@ function draw()
 	orig._renderer = orig_renderer;
 	mat.apply();
 
-	if (t < hold_time)
+	// flip the display for rear projection
+	scale(-1,1);
+	translate(-1920,0);
+
+	if (t < hold_time || b_art >= art.length)
 	{
 		// no cross fade
-		image(pg[a_art], 0, 0);
+		//noTint();
+		image(a_pg, 0, 0);
 		return;
 	}
 
 	// cross fade
 	const fade = 256 * (t - hold_time) / fade_time;
 	tint(256, 256 - fade);
-	image(pg[a_art], 0, 0);
+	image(a_pg, 0, 0);
 	tint(256, fade);
-	image(pg[b_art], 0, 0);
+	image(b_pg, 0, 0);
 
 	if (fade < 255)
 		return;
 
 	// b has fully faded in, make it the new a
 	a_art = b_art;
+	a_pg = b_pg;
+	b_pg = null;
 
 	// and choose a new b (that is not the same as the a)
 	do {
@@ -83,4 +102,17 @@ function draw()
 
 	// and restart the clock (in milliseconds)
 	start = now;
+}
+
+function keyPressed()
+{
+	if (key == ' ')
+		mat.edit ^= 1;
+	if (key == 's')
+		mat.save();
+	if (key == '1')
+	{
+		start = new Date().getTime();
+		a_art = (a_art + 1) % art.length;
+	}
 }
