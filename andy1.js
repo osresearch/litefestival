@@ -29,7 +29,8 @@ let mode = 0
 let next_mode_switch = time_per_mode;
 
 let bgCol=color(213, 209, 200)
-let blackCol=color(45, 45, 45)
+//let blackCol=color(45, 45, 45)
+let blackCol=color(0, 0, 0)
 
 return function() {
 
