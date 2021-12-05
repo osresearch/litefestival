@@ -20,7 +20,16 @@ And then add it to the `index.html` with the others:
   <script language="javascript" type="text/javascript" src="foo.js"></script>
 ```
 
-Then send a pull request for your changes.
+Test it by serving it from your local machine:
+
+```
+python3 -m http.server
+```
+
+And then open http://localhost:8000/ in your browser.  Press `1` to
+cycle through the other pieces until your new one is reached.
+
+Once it looks good, send a pull request for your changes!
 
 The drawing canvas that is provided to your sketch is 1920x1080
 and is a normal 2D renderer.
