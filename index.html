@@ -8,6 +8,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/9.5.1/math.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/osresearch/p5.projection@0.2.1/library/p5.projection.js"></script>
   <script language="javascript" type="text/javascript" src="sketch.js"></script>
+  <script language="javascript" type="text/javascript" src="truchet.js"></script>
   <!-- OK, YOU CAN MAKE CHANGES BELOW THIS LINE AGAIN -->
 
   <!-- This line removes any default padding and style.
@@ -15,16 +16,19 @@
   <style> body { padding: 0; margin: 0; } </style>
 </head>
 <script>
-let a;
+let a, b;
 let mat = new ProjectionMatrix(null,null,"lites2021");
-let pg;
+let ag, bg;
+let t = 0;
 
 function setup()
 {
 	createCanvas(displayWidth, displayHeight, WEBGL);
-	pg = createGraphics(1920,1080);
+	ag = createGraphics(1920,1080);
+	bg = createGraphics(1920,1080);
 
 	a = new Andy1();
+	b = new Truchet();
 	mat.load();
 	mat.edit = 1;
 }
@@ -33,15 +37,25 @@ function draw()
 {
 	const orig = background(0);
 	const orig_renderer = orig._renderer;
-	orig._renderer = pg._renderer;
 
-	// draw into pg
+	// draw into ag
+	orig._renderer = ag._renderer;
 	a.draw();
 
-	// copy pg to the output
+	// draw into ag
+	orig._renderer = bg._renderer;
+	b.draw();
+
+	// copy ag and bg to the output
 	orig._renderer = orig_renderer;
 	mat.apply();
-	image(pg, 0, 0);
+
+	tint(255, 128 * sin(t) + 128);
+	image(ag, 0, 0);
+	tint(255, 128 * cos(t) + 128);
+	image(bg, 0, 0);
+
+	t += 0.005;
 }
 </script>
 
