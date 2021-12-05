@@ -12,6 +12,7 @@ let b_art = 1;
 function setup()
 {
 	createCanvas(displayWidth, displayHeight, WEBGL);
+	frameRate(25);
 
 	for(let sketch of sketches)
 	{
