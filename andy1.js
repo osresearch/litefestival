@@ -22,7 +22,7 @@ let mini_w = cell_w / num_mini_cols;
 let mini_h = cell_h / num_mini_rows;
 
 let col_pos = [0, 204, 504, 708, 1047, 1249, 1550, 1752]
-let row_pos = [0, 372, 765]
+let row_pos = [0, 372, 745]
 
 let mode = 0
 

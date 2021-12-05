@@ -4,7 +4,7 @@ let rect_w = 175;
 let rect_h = 336;
 
 let x_coords = [0, 204, 504, 708, 1047, 1249, 1550, 1752];
-let y_coords = [0, 372, 765];
+let y_coords = [0, 372, 745];
 
 class Rect
 {
