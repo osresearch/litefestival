@@ -12,15 +12,32 @@ let a_art = 0;
 let b_art = 1;
 
 let hold_time = 60e3; // ms
-let fade_time = 15e3;
+let fade_time =  3e3;
 
 let start = 0;
+let qr_qrs;
+let qr_andy;
+let authors = [];
+
+function preload()
+{
+	qr_qrs = loadImage('qrs.png');
+	qr_andy = loadImage('andy.png');
+}
 
 function setup()
 {
 	//createCanvas(windowWidth-10, windowHeight-15, WEBGL);
 	createCanvas(windowWidth-0, windowHeight-0, WEBGL);
 	frameRate(50);
+
+	authors[0] = qr_andy;
+	authors[1] = qr_andy;
+	authors[2] = qr_qrs;
+	authors[3] = qr_qrs;
+	authors[4] = qr_qrs;
+	authors[5] = qr_qrs;
+	authors[6] = qr_qrs;
 
 	a_pg = createGraphics(1920,1080);
 	b_pg = createGraphics(1920,1080);
@@ -49,7 +66,7 @@ function draw()
 	const orig_renderer = orig._renderer;
 
 	// draw into ag
-	let output = a_pg;
+	let fading = false;
 	orig._renderer = a_pg._renderer;
 	push();
 	art[a_art]();
@@ -71,7 +88,7 @@ function draw()
 		pop();
 
 		// cross fade into fade_pg
-		output = fade_pg;
+		fading = true;
 		orig._renderer = fade_pg._renderer;
 		let fade = 256 * (t - hold_time) / fade_time;
 		tint(255, 255 - fade);
@@ -92,7 +109,22 @@ function draw()
 	// and draw either the cross faded image or the original
 	//scale(-1,1);
 	//tanslate(-1920,0);
-	image(output, 0, 0);
+	if (fading)
+	{
+		image(fade_pg, 0, 0);
+	} else {
+		image(a_pg, 0, 0);
+
+		// add the author qr code
+		push();
+		scale(-1,1);
+		translate(-175+128/2-30,1080-128-20,1);
+		image(authors[a_art], 0, 0, 128, 128);
+		pop();
+	}
+
+
+	
 
 	if (t < hold_time + fade_time || art.length == 1)
 		return;
