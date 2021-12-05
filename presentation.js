@@ -9,6 +9,11 @@ let pg = [];
 let a_art = 0;
 let b_art = 1;
 
+let hold_time = 20e3; // ms
+let fade_time =  5e3;
+
+let start = 0;
+
 function setup()
 {
 	createCanvas(displayWidth, displayHeight, WEBGL);
@@ -26,6 +31,9 @@ function setup()
 
 function draw()
 {
+	const now = new Date().getTime();
+	const t = now - start;
+
 	const orig = background(0);
 	const orig_renderer = orig._renderer;
 
@@ -33,28 +41,46 @@ function draw()
 	orig._renderer = pg[a_art]._renderer;
 	art[a_art]();
 
-	// draw into ag
-	orig._renderer = pg[b_art]._renderer;
-	art[b_art]();
+	// render b if we are cross fading
+	if (t > hold_time)
+	{
+		// draw into bg
+		orig._renderer = pg[b_art]._renderer;
+		art[b_art]();
+	}
 
-	// copy ag and bg to the output
+	// switch back to the webgl renderer and
+	// apply the projection mapping matrix
 	orig._renderer = orig_renderer;
 	mat.apply();
 
-	let fade = t; //128 * cos(t * 2 * PI / 100) + 128;
-	tint(255, 256 - fade);
+	if (t < hold_time)
+	{
+		// no cross fade
+		image(pg[a_art], 0, 0);
+		return;
+	}
+
+	// cross fade
+	const fade = 256 * (t - hold_time) / fade_time;
+	tint(256, 256 - fade);
 	image(pg[a_art], 0, 0);
-	tint(255, fade);
+	tint(256, fade);
 	image(pg[b_art], 0, 0);
 
-	t += 1;
+	if (fade < 255)
+		return;
 
-	// pick a new B art when B goes to zero
-	if (t == 256)
-	{
-		a_art = b_art;
+	// b has fully faded in, make it the new a
+	a_art = b_art;
+
+	// and choose a new b (that is not the same as the a)
+	do {
 		b_art = int(random(0, art.length));
-		console.log("B art", b_art);
-		t = 0;
-	}
+	} while (b_art == a_art);
+
+	console.log("New art", b_art);
+
+	// and restart the clock (in milliseconds)
+	start = now;
 }
