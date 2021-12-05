@@ -5,15 +5,19 @@ let t = 0;
 
 let sketches = [];
 let art = [];
+let pg = [];
+let a_art = 0;
+let b_art = 1;
 
 function setup()
 {
 	createCanvas(displayWidth, displayHeight, WEBGL);
-	ag = createGraphics(1920,1080);
-	bg = createGraphics(1920,1080);
 
 	for(let sketch of sketches)
+	{
 		art.push(sketch());
+		pg.push(createGraphics(1920,1080));
+	}
 
 	mat.load();
 	mat.edit = 1;
@@ -25,21 +29,31 @@ function draw()
 	const orig_renderer = orig._renderer;
 
 	// draw into ag
-	orig._renderer = ag._renderer;
-	art[0]();
+	orig._renderer = pg[a_art]._renderer;
+	art[a_art]();
 
 	// draw into ag
-	orig._renderer = bg._renderer;
-	art[1]();
+	orig._renderer = pg[b_art]._renderer;
+	art[b_art]();
 
 	// copy ag and bg to the output
 	orig._renderer = orig_renderer;
 	mat.apply();
 
-	tint(255, 256 * sin(t) + 128);
-	image(ag, 0, 0);
-	tint(255, 128 * cos(t) + 128);
-	image(bg, 0, 0);
+	let fade = t; //128 * cos(t * 2 * PI / 100) + 128;
+	tint(255, 256 - fade);
+	image(pg[a_art], 0, 0);
+	tint(255, fade);
+	image(pg[b_art], 0, 0);
 
-	t += 0.005;
+	t += 1;
+
+	// pick a new B art when B goes to zero
+	if (t == 256)
+	{
+		a_art = b_art;
+		b_art = int(random(0, art.length));
+		console.log("B art", b_art);
+		t = 0;
+	}
 }
