@@ -62,7 +62,7 @@ function draw_digit(pos, val)
 
 			push()
 			//translate(0,0,-weight/10);
-			let n = 3 * weight;
+			let n = 10 * weight;
 			line(
 				x0 + random(-n,n),
 				y0 + random(-n,n),
