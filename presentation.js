@@ -7,24 +7,28 @@ let sketches = [];
 let art = [];
 let a_pg;
 let b_pg;
+let fade_pg;
 let a_art = 0;
 let b_art = 1;
 
-let hold_time = 20e3; // ms
-let fade_time =  5e3;
+let hold_time = 60e3; // ms
+let fade_time = 15e3;
 
 let start = 0;
 
 function setup()
 {
-	createCanvas(displayWidth, displayHeight, WEBGL);
+	//createCanvas(windowWidth-10, windowHeight-15, WEBGL);
+	createCanvas(windowWidth-0, windowHeight-0, WEBGL);
 	frameRate(50);
 
 	a_pg = createGraphics(1920,1080);
 	b_pg = createGraphics(1920,1080);
+	fade_pg = createGraphics(1920,1080);
 
 	a_pg.background(0);
 	b_pg.background(0);
+	fade_pg.background(0);
 
 	for(let sketch of sketches)
 	{
@@ -37,28 +41,43 @@ function setup()
 function draw()
 {
 	const now = new Date().getTime();
+	if (start == 0)
+		start = now;
 	const t = now - start;
 
 	const orig = background(0);
 	const orig_renderer = orig._renderer;
 
 	// draw into ag
+	let output = a_pg;
 	orig._renderer = a_pg._renderer;
 	push();
 	art[a_art]();
 	pop();
 
 	// render b if we are cross fading
-	if (t > hold_time && b_art < art.length)
+	if (t >= hold_time && art.length != 1)
 	{
 		// draw into bg
 		if (!b_pg)
+		{
 			b_pg = createGraphics(1920,1080);
+			b_pg.background(0);
+		}
 
 		orig._renderer = b_pg._renderer;
 		push();
 		art[b_art]();
 		pop();
+
+		// cross fade into fade_pg
+		output = fade_pg;
+		orig._renderer = fade_pg._renderer;
+		let fade = 256 * (t - hold_time) / fade_time;
+		tint(255, 255 - fade);
+		image(a_pg, 0, 0);
+		tint(255, fade);
+		image(b_pg, 0, 0);
 	}
 
 	// switch back to the webgl renderer and
@@ -66,29 +85,19 @@ function draw()
 	orig._renderer = orig_renderer;
 	mat.apply();
 
+	if (mat.edit)
+		mat.drawMouse();
+
 	// flip the display for rear projection
-	scale(-1,1);
-	translate(-1920,0);
+	// and draw either the cross faded image or the original
+	//scale(-1,1);
+	//tanslate(-1920,0);
+	image(output, 0, 0);
 
-	if (t < hold_time || b_art >= art.length)
-	{
-		// no cross fade
-		//noTint();
-		image(a_pg, 0, 0);
-		return;
-	}
-
-	// cross fade
-	const fade = 256 * (t - hold_time) / fade_time;
-	tint(256, 256 - fade);
-	image(a_pg, 0, 0);
-	tint(256, fade);
-	image(b_pg, 0, 0);
-
-	if (fade < 255)
+	if (t < hold_time + fade_time || art.length == 1)
 		return;
 
-	// b has fully faded in, make it the new a
+	// if b has fully faded in, make it the new a
 	a_art = b_art;
 	a_pg = b_pg;
 	b_pg = null;
@@ -100,19 +109,27 @@ function draw()
 
 	console.log("New art", b_art);
 
-	// and restart the clock (in milliseconds)
-	start = now;
+	// and restart the clock
+	start = 0;
 }
 
 function keyPressed()
 {
 	if (key == ' ')
 		mat.edit ^= 1;
+
 	if (key == 's')
 		mat.save();
+
 	if (key == '1')
 	{
-		start = new Date().getTime();
+		// switch to the next one
+		start = 0;
 		a_art = (a_art + 1) % art.length;
 	}
+}
+
+function windowResized()
+{
+	resizeCanvas(windowWidth-0, windowHeight-4);
 }
