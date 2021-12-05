@@ -7,7 +7,7 @@ constructor(gen, alpha=255)
 	this.max_width = 5 * gen;
 
 	this.min_len = 100;
-	this.max_len = 300;
+	this.max_len = 350;
 
 	this.min_angle = -40 * PI/180;
 	this.max_angle = +10 * PI/180;
@@ -93,15 +93,21 @@ draw()
 }
 
 let trees = [];
+let rect_w = 175;
+let x_coords = [0, 204, 504, 708, 1047, 1249, 1550, 1752, 1920];
 
+trees.push(new TreeNode(5));
+trees.push(new TreeNode(6));
 trees.push(new TreeNode(8));
+trees.push(new TreeNode(5));
+trees.push(new TreeNode(5));
 trees.push(new TreeNode(8));
-trees.push(new TreeNode(8));
-trees.push(new TreeNode(8));
+trees.push(new TreeNode(6));
+trees.push(new TreeNode(5));
 
 return function()
 {
-	background(0, 20);
+	background(0);
 
 	push();
 
@@ -110,8 +116,11 @@ return function()
 
 	for(let i = 0 ; i < trees.length ; i++)
 	{
-		translate(1920 / (trees.length+1), 0);
+		push();
+		//translate(1920 / (trees.length+1), 0);
+		translate(x_coords[i] + rect_w/2, 0);
 		trees[i].draw();
+		pop();
 	}
 
 	pop();
