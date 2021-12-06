@@ -1,53 +1,43 @@
 sketches.push(function(){
 
 // setup code goes here
-ArrayList<Square> squares = new ArrayList<Square>();
+let squares = [];
 
-int num = 200;
-int min = 5;
-int max = 150;
+let num = 200;
+let min = 5;
+let max = 150;
+let width = 1920;
+let height = 1080;
 
-/* Our object */
-Square s = new Square(new PVector(random(width, width), random(height/2-num, height/2+num)), (int)random(min, max));
 
-void setup() {
-  size(640, 640);
-  stroke(5);
-  squares.add(s);
-  frameRate (60);
+class Square {
+constructor(x,y,d) {
+  this.x = x;
+  this.y = y;
+  this.d = d;
+}
+
+draw() {
+    const r = dist(this.x, this.y, width/2, height/2);
+    fill(255, random(255), random(55));
+    const angle = cos(radians(r+frameCount)) * this.d/3;
+    rect(this.x, this.y, this.d/3+angle, this.d/4+angle,7);
+  }
 }
 
 // drawing code goes here
-void draw() {
+return function() {
   background(0);
-  for(int i = 0; i < squares.size(); i++){
-      Square s = (Square) squares.get(i);
-      s.draw();
-  }
+  stroke(5);
+
+  for(let s of squares)
+    s.draw();
   
-  PVector newLoc = new PVector(random(width/2-num, width/2+num), random(height/2-num, height/2+num));
-  int newD = (int) random(min, max);
+  let newD = int(random(min, max));
+  let newX = random(width/2-num, width/2+num);
+  let newY = random(height/2-num, height/2+num);
 
-  if(squares.size() < 800){
-    s = new Square(newLoc, newD);
-    squares.add(s);
-  }
+  if(squares.length < 800)
+    squares.push(new Square(newX, newY, newD));
 }
-
-class Square {
-  PVector location;
-  int d;
-
-  Square(PVector loc, int d) {
-    this.location = loc;
-    this.d = d;
-  } 
-
-  void draw() {
-    float r = dist(location.x, location.y, width/2, height/2);
-    fill(255, random(255), random(55));
-    float angle = cos(radians(r+frameCount)) * d/3;
-    rect(location.x, location.y, d/3+angle, d/4+angle,7);
-  }
-}
-};
+});
