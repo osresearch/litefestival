@@ -23,6 +23,7 @@ function preload()
 {
 	qr_qrs = loadImage('qrs.png');
 	qr_andy = loadImage('andy.png');
+	qr_sophi = loadImage('sophi.png');
 }
 
 function setup()
@@ -38,6 +39,7 @@ function setup()
 	authors[4] = qr_qrs;
 	authors[5] = qr_qrs;
 	authors[6] = qr_qrs;
+	authors[7] = qr_sophi;
 
 	a_pg = createGraphics(1920,1080);
 	b_pg = createGraphics(1920,1080);
@@ -116,11 +118,14 @@ function draw()
 		image(a_pg, 0, 0);
 
 		// add the author qr code
-		push();
-		scale(-1,1);
-		translate(-175+128/2-30,1080-128-20,1);
-		image(authors[a_art], 0, 0, 128, 128);
-		pop();
+		if (a_art in authors)
+		{
+			push();
+			scale(-1,1);
+			translate(-175+128/2-30,1080-128-20,1);
+			image(authors[a_art], 0, 0, 128, 128);
+			pop();
+		}
 	}
 
 
