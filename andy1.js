@@ -9,8 +9,8 @@ let speed = 0.01;
 
 let t=0;
 
-let cell_w = 177
-let cell_h = 364
+let cell_w = 175
+let cell_h = 336
 
 let num_cols = 8
 let num_rows = 3
