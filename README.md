@@ -26,8 +26,8 @@ Test it by serving it from your local machine:
 python3 -m http.server
 ```
 
-And then open http://localhost:8000/ in your browser.  Press `1` to
-cycle through the other pieces until your new one is reached.
+And then open http://localhost:8000/presentation.html in your browser.
+Press `1` to cycle through the other pieces until your new one is reached.
 
 Once it looks good, send a pull request for your changes!
 
@@ -36,7 +36,7 @@ and is a normal 2D renderer.
 
 ![Diagram of door frame coordinates](template.jpg)
 
-The boundaries for the door frames are (note that the image is wrong!):
+The boundaries for the door frames are:
 
 ```
 let x_cords [0, 204, 504, 708, 1047, 1249, 1550, 1752];
