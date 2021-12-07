@@ -21,8 +21,8 @@ let authors = [];
 
 function preload()
 {
-	qr_qrs = loadImage('qrs.png');
-	qr_andy = loadImage('andy.png');
+	qr_qrs = loadImage('images/qrs.png');
+	qr_andy = loadImage('images/andy.png');
 }
 
 function setup()

@@ -34,7 +34,7 @@ Once it looks good, send a pull request for your changes!
 The drawing canvas that is provided to your sketch is 1920x1080
 and is a normal 2D renderer.
 
-![Diagram of door frame coordinates](template.jpg)
+![Diagram of door frame coordinates](images/template.jpg)
 
 The boundaries for the door frames are:
 
