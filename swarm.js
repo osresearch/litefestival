@@ -10,7 +10,7 @@ let x_coords = [0, 204, 504, 708, 1047, 1249, 1550, 1752, 1920];
 let y_coords = [0, 372, 745, 1080];
 
 let max_v = 400;
-let max_a = 200;
+let max_a = 300;
 
 let debug = false;
 
@@ -51,8 +51,8 @@ draw()
 	rotate(atan2(this.vy, this.vx));
 	beginShape();
 	vertex(this.size, 0);
-	vertex(0,-this.size/2);
-	vertex(0,+this.size/2);
+	vertex(0,-this.size/3);
+	vertex(0,+this.size/3);
 	endShape(CLOSE);
 	pop();
 	
@@ -64,11 +64,13 @@ step(tx,ty,dt)
 	// randomsize the bees
 	const now = Now();
 	const age = now - this.birth;
-	if (age > random(2e3,10e3))
+	if (age > random(5e3,60e3))
 	{
 		this.birth = now;
 		this.x = random(0, this.w);
-		this.y = random(0, this.w);
+		this.y = random(0, this.h);
+		this.vx = random(-this.max_v, this.max_v);
+		this.vy = random(-this.max_v, this.max_v);
 	}
 
 	const dx = tx - this.x;
@@ -79,8 +81,8 @@ step(tx,ty,dt)
 	// update velocity towards the target at max accel
 	const dvx = dt * (dx * this.max_a) / dist;
 	const dvy = dt * (dy * this.max_a) / dist;
-	this.vx = clamp(this.vx + dvx, -this.max_v, this.max_v) + this.noise * (noise(0, this.x/1000, this.y/1000) - 0.5);
-	this.vy = clamp(this.vy + dvy, -this.max_v, this.max_v) + this.noise * (noise(1, this.x, this.y) - 0.5);
+	this.vx = clamp(this.vx + dvx, -this.max_v, this.max_v) + this.noise * (noise(0, this.x/100, this.y/100) - 0.5);
+	this.vy = clamp(this.vy + dvy, -this.max_v, this.max_v) + this.noise * (noise(1, this.x/100, this.y/100) - 0.5);
 	this.x += dt * this.vx;
 	this.y += dt * this.vy;
 
@@ -119,9 +121,9 @@ constructor(n,x,y,w,h)
 	// the wasp is not velocity limited
 	this.wasp = new Bee(w,h);
 	this.wasp.size *= 2;
-	this.wasp.max_a = 10000;
+	this.wasp.max_a = 2500;
 	this.wasp.max_v = 550;
-	this.wasp.noise = 300;
+	this.wasp.noise = 200;
 	this.tx = w/2;
 	this.ty = h/2;
 }
@@ -148,7 +150,7 @@ step(tx,ty)
 	// pick a new random wasp location?
 	const age = now - this.wasp.birth;
 
-	if (age > random(1000,5000))
+	if (age > random(2000,5000))
 	{
 		this.wasp.birth = now;
 		this.tx = this.w * (x_coords[int(random(x_coords.length))] + rect_w/2) / 1920;
@@ -182,7 +184,7 @@ for(let x of x_coords)
 // create a swarm that just has a wasp in it
 let wasp = new Swarm(0,0,0,1920*10,1080*10);
 wasp.wasp_color = color(0,0,255);
-wasp.wasp.size = 200;
+wasp.wasp.size = 300;
 
 return function()
 {
