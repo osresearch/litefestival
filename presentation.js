@@ -29,7 +29,8 @@ function setup()
 {
 	//createCanvas(windowWidth-10, windowHeight-15, WEBGL);
 	createCanvas(windowWidth-0, windowHeight-0, WEBGL);
-	frameRate(50);
+	frameRate(30);
+	pixelDensity(1)
 
 	authors[0] = qr_andy;
 	authors[1] = qr_andy;
@@ -47,10 +48,19 @@ function setup()
 	b_pg.background(0);
 	fade_pg.background(0);
 
+	let orig_w = width;
+	let orig_h = height;
+
+	width = 1920;
+	height = 1080;
+
 	for(let sketch of sketches)
 	{
 		art.push(sketch());
 	}
+
+	width = orig_w;
+	height = orig_h;
 
 	mat.load();
 }
@@ -64,6 +74,12 @@ function draw()
 
 	const orig = background(0);
 	const orig_renderer = orig._renderer;
+
+	let orig_w = width;
+	let orig_h = height;
+
+	width = 1920;
+	height = 1080;
 
 	// draw into ag
 	let fading = false;
@@ -100,6 +116,9 @@ function draw()
 	// switch back to the webgl renderer and
 	// apply the projection mapping matrix
 	orig._renderer = orig_renderer;
+	width = orig_w;
+	height = orig_h;
+
 	mat.apply();
 
 	if (mat.edit)
