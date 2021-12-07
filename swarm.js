@@ -10,7 +10,9 @@ let x_coords = [0, 204, 504, 708, 1047, 1249, 1550, 1752, 1920];
 let y_coords = [0, 372, 745, 1080];
 
 let max_v = 400;
-let max_a = 800;
+let max_a = 200;
+
+let debug = false;
 
 function clamp(x,lower,upper)
 {
@@ -35,20 +37,40 @@ constructor(w,h)
 	this.x = random(0,w);
 	this.y = random(0,h);
 	this.vx = random(max_v/2, max_v);
-	this.vy = random(max_v/2, max_v);
+	this.vy = max_v; // random(max_v/2, max_v);
 	this.max_a = max_a;
 	this.max_v = max_v;
-	this.size = 30;
-	this.noise = max_v / 4;
+	this.size = 50;
+	this.noise = max_v / 8;
 	this.birth = Now();
 }
 draw()
 {
-	rect(this.x - this.size/2, this.y-this.size/2, this.size, this.size);
-	line(this.x, this.y, this.x - this.vx/10, this.y - this.vy/10);
+	push();
+	translate(this.x, this.y);
+	rotate(atan2(this.vy, this.vx));
+	beginShape();
+	vertex(this.size, 0);
+	vertex(0,-this.size/2);
+	vertex(0,+this.size/2);
+	endShape(CLOSE);
+	pop();
+	
+	//rect(this.x - this.size/2, this.y-this.size/2, this.size, this.size);
+	//line(this.x, this.y, this.x - this.vx/10, this.y - this.vy/10);
 }
 step(tx,ty,dt)
 {
+	// randomsize the bees
+	const now = Now();
+	const age = now - this.birth;
+	if (age > random(2e3,10e3))
+	{
+		this.birth = now;
+		this.x = random(0, this.w);
+		this.y = random(0, this.w);
+	}
+
 	const dx = tx - this.x;
 	const dy = ty - this.y;
 	const dist2 = dx*dx + dy*dy;
@@ -57,8 +79,8 @@ step(tx,ty,dt)
 	// update velocity towards the target at max accel
 	const dvx = dt * (dx * this.max_a) / dist;
 	const dvy = dt * (dy * this.max_a) / dist;
-	this.vx = clamp(this.vx + dvx, -this.max_v, this.max_v) + random(-this.noise, this.noise);
-	this.vy = clamp(this.vy + dvy, -this.max_v, this.max_v) + random(-this.noise, this.noise);
+	this.vx = clamp(this.vx + dvx, -this.max_v, this.max_v) + this.noise * (noise(0, this.x/1000, this.y/1000) - 0.5);
+	this.vy = clamp(this.vy + dvy, -this.max_v, this.max_v) + this.noise * (noise(1, this.x, this.y) - 0.5);
 	this.x += dt * this.vx;
 	this.y += dt * this.vy;
 
@@ -96,7 +118,7 @@ constructor(n,x,y,w,h)
 
 	// the wasp is not velocity limited
 	this.wasp = new Bee(w,h);
-	this.wasp.size = 50;
+	this.wasp.size *= 2;
 	this.wasp.max_a = 10000;
 	this.wasp.max_v = 550;
 	this.wasp.noise = 300;
@@ -107,7 +129,6 @@ draw()
 {
 	push();
 	translate(this.x, this.y);
-	scale(0.1);
 
 	fill(this.wasp_color);
 	this.wasp.draw();
@@ -118,24 +139,28 @@ draw()
 
 	pop();
 }
-step()
+step(tx,ty)
 {
 	const now = Now();
-	const dt = 2 * (now - this.last) / 1e6;
+	//const dt = (now - this.last) / 1e6;
+	const dt = 0.04;
 
 	// pick a new random wasp location?
-	if ((now - this.wasp.birth) > random(1000,10000))
+	const age = now - this.wasp.birth;
+
+	if (age > random(1000,5000))
 	{
 		this.wasp.birth = now;
-		this.tx = this.w * random(); // (random(2) > 1 ? 0.75 : 0.25);
-		this.ty = this.h * random(); // (random(2) > 1 ? 0.75 : 0.25);
+		this.tx = this.w * (x_coords[int(random(x_coords.length))] + rect_w/2) / 1920;
+		this.ty = this.h * (y_coords[int(random(y_coords.length))] + rect_h/2) / 1080;
+		if (debug)
 		console.log(this.wasp);
 	}
 
 	this.wasp.step(this.tx, this.ty, dt);
 
 	for(let bee of this.bees)
-		bee.step(this.wasp.x,this.wasp.y,dt);
+		bee.step(tx, ty, dt); // this.wasp.x,this.wasp.y,dt);
 }
 }
 
@@ -147,23 +172,54 @@ for(let x of x_coords)
 {
 	for(let y of y_coords)
 	{
-		let swarm = new Swarm(20,x,y,rect_w*10, rect_h*10);
+		let swarm = new Swarm(20,x*10,y*10,rect_w*10, rect_h*10);
 		swarm.bee_color = color(256 * x / 1920, 256 * (1920 - x) / 1920, 256 * y / 1080);
+		swarm.wasp_color = color(256 * (1920 - x) / 1920, 256 * x / 1920, 256 * (1080 - y) / 1080);
 		swarms.push(swarm);
 	}
 }
+
+// create a swarm that just has a wasp in it
+let wasp = new Swarm(0,0,0,1920*10,1080*10);
+wasp.wasp_color = color(0,0,255);
+wasp.wasp.size = 200;
 
 return function()
 {
 	background(0,20);
 
+	push();
+
+	scale(0.1);
 	fill(255);
-	strokeWeight(5);
-	stroke(80);
+	noStroke();
+
+	debug = true;
+	wasp.step();
+	debug = false;
+
+	const tx = wasp.wasp.x;
+	const ty = wasp.wasp.y;
 
 	for(let swarm of swarms)
 	{
-		swarm.step();
+		if (swarm.x < tx && tx < swarm.x + swarm.w
+		&&  swarm.y < ty && ty < swarm.y + swarm.h)
+		{
+			// big wasp is inside the little swarm
+			swarm.tx = tx - swarm.x;
+			swarm.ty = ty - swarm.y;
+			swarm.step(swarm.tx, swarm.ty);
+		} else {
+			swarm.step(swarm.wasp.x, swarm.wasp.y);
+		}
+
+
 		swarm.draw();
 	}
+
+	wasp.draw();
+
+
+	pop();
 }});
