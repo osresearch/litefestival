@@ -1,0 +1,72 @@
+@import url("font-specifications.css");
+/* ^^^ font definitions ^^^ */
+
+/*........................................................*/
+/* color palette definitions for light and dark modes
+/*........................................................*/
+
+/* default (light) color palette */
+:root {
+	--background-low: #333;
+	--background: #000;
+	--text-default: #fff;
+	--purple: #6c43fe; /* purple */
+	--orange: #f9761e; /* orange */
+	--yellow: #ffc561; /* yellow */
+	--red: #ff3b7b; /* red */
+}
+
+/* dark mode color palette */
+@media (prefers-color-scheme: light) {
+	:root {
+		--background-low: #f6f3f0;
+		--background: #fff;
+		--text-default: #000;
+		--purple: #6c43fe; /* purple */
+		--orange: #f9761e; /* orange */
+		--yellow: #ffc561; /* yellow */
+		--red: #ff3b7b; /* red */
+	}
+}
+
+body {
+	background-color: var(--background-low);
+	color: var(--text-default);
+	font-family: Metropolis, Avenir, "Avenir Next";
+	font-size: 1em;
+}
+
+h1 {
+	font-size: 2.5em;
+	font-weight: 300;
+}
+
+img {
+	width: 480;
+	height: 270;
+}
+
+.artist-name {
+	font-size: 1.25em;
+	padding-top: 5px;
+}
+
+.flex-container-row {
+	background-color: var(--background-low);
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	margin: 20px;
+	padding: 10px;
+}
+
+.flex-container-col {
+	background-color: var(--background);
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	border-radius: 10px;
+	margin: 20px;
+	padding: 30px;
+}

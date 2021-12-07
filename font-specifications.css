@@ -1,0 +1,141 @@
+/* Font Weights 
+
+Thin            100     
+Extra Light     200
+Light           300
+Regular         400
+Medium          500
+Semi-Bold       600
+Bold            700
+Extra-Bold      800
+Black           900
+*/
+
+/* Metropolis */
+@font-face {
+  font-family: 'Metropolis';
+  font-style: normal;
+  font-weight: 100;
+  src: local('Metropolis-Thin.woff2'),
+  	url(https://v.st/~holly/Metropolis-Thin.woff2);
+}
+@font-face {
+  font-family: 'Metropolis';
+  font-style: normal;
+  font-weight: 200;
+  src: local('Metropolis-ExtraLight.woff2'),
+  	url(https://v.st/~holly/Metropolis-ExtraLight.woff2);
+}
+@font-face {
+  font-family: 'Metropolis';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Metropolis-Light.woff2'),
+  	url(https://v.st/~holly/Metropolis-Light.woff2) ;
+}
+@font-face {
+  font-family: 'Metropolis';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Metropolis-Regular.woff2'),
+  	url(https://v.st/~holly/Metropolis-Regular.woff2) ;
+}
+@font-face {
+  font-family: 'Metropolis';
+  font-style: normal;
+  font-weight: 500;
+  src: local('Metropolis-Medium.woff2'),
+  	url(https://v.st/~holly/Metropolis-Medium.woff2) ;
+}
+@font-face {
+  font-family: 'Metropolis';
+  font-style: normal;
+  font-weight: 600;
+  src: local('Metropolis-SemiBold.woff2'),
+  	url(https://v.st/~holly/Metropolis-SemiBold.woff2) ;
+}
+@font-face {
+  font-family: 'Metropolis';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Metropolis-Bold.woff2'),
+  	url(https://v.st/~holly/Metropolis-Bold.woff2) ;
+}
+@font-face {
+  font-family: 'Metropolis';
+  font-style: normal;
+  font-weight: 800;
+  src: local('Metropolis-ExtraBold.woff2'),
+  	url(https://v.st/~holly/Metropolis-ExtraBold.woff2) ;
+}
+@font-face {
+  font-family: 'Metropolis';
+  font-style: normal;
+  font-weight: 900;
+  src: local('Metropolis-Black.woff2'),
+  	url(https://v.st/~holly/Metropolis-Black.woff2) ;
+}
+/* italic */
+@font-face {
+  font-family: 'Metropolis';
+  font-style: italic;
+  font-weight: 100;
+  src: local('Metropolis-ThinItalic.woff2'),
+  	url(https://v.st/~holly/Metropolis-ThinItalic.woff2) ;
+}
+@font-face {
+  font-family: 'Metropolis';
+  font-style: italic;
+  font-weight: 200;
+  src: local('Metropolis-ExtraLightItalic.woff2'),
+  	url(https://v.st/~holly/Metropolis-ExtraLightItalic.woff2) ;
+}
+@font-face {
+  font-family: 'Metropolis';
+  font-style: italic;
+  font-weight: 300;
+  src: local('Metropolis-LightItalic.woff2'),
+  	url(https://v.st/~holly/Metropolis-LightItalic.woff2) ;
+}
+@font-face {
+  font-family: 'Metropolis';
+  font-style: italic;
+  font-weight: 400;
+  src: local('Metropolis-RegularItalic.woff2'),
+  	url(https://v.st/~holly/Metropolis-RegularItalic.woff2) ;
+}
+@font-face {
+  font-family: 'Metropolis';
+  font-style: italic;
+  font-weight: 500;
+  src: local('Metropolis-MediumItalic.woff2'),
+  	url(https://v.st/~holly/Metropolis-MediumItalic.woff2) ;
+}
+@font-face {
+  font-family: 'Metropolis';
+  font-style: italic;
+  font-weight: 600;
+  src: local('Metropolis-SemiBoldItalic.woff2'),
+  	url(https://v.st/~holly/Metropolis-SemiBoldItalic.woff2) ;
+}
+@font-face {
+  font-family: 'Metropolis';
+  font-style: italic;
+  font-weight: 700;
+  src: local('Metropolis-BoldItalic.woff2'),
+  	url(https://v.st/~holly/Metropolis-BoldItalic.woff2) ;
+}
+@font-face {
+  font-family: 'Metropolis';
+  font-style: italic;
+  font-weight: 800;
+  src: local('Metropolis-ExtraBoldItalic.woff2'),
+  	url(https://v.st/~holly/Metropolis-ExtraBoldItalic.woff2) ;
+}
+@font-face {
+  font-family: 'Metropolis';
+  font-style: italic;
+  font-weight: 900;
+  src: local('Metropolis-BlackItalic.woff2'),
+  	url(https://v.st/~holly/Metropolis-BlackItalic.woff2) ;
+}
