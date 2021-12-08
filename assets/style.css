@@ -40,6 +40,8 @@
 
 body {
 	background: linear-gradient(0deg, var(--background-bottom) 0%, var(--background-top) 100%);
+	background-repeat: no-repeat;
+	background-color: var(--background-bottom);
 	color: var(--text-default);
 	font-family: Metropolis, Avenir, "Avenir Next";
 	font-size: 1em;
@@ -76,7 +78,7 @@ img {
 }
 
 .flex-container-col {
-	background-color: var(--background-frame);
+	background: linear-gradient(0deg, var(--background-top) 0%, var(--background-bottom) 100%);
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
