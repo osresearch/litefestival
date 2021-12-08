@@ -5,23 +5,32 @@
 /* color palette definitions for light and dark modes
 /*........................................................*/
 
-/* default (light) color palette */
+/* default (dark) color palette */
 :root {
-	--background-low: #333;
-	--background: #000;
+	--background-top: #33386a;
+	--background-bottom: #101021;
+	--background-frame: #112;
 	--text-default: #fff;
+	--inner-glow: #aaf5f5; /* light cyan */
+	--outer-glow: aqua;
+	--text-h1: #fff;
 	--purple: #6c43fe; /* purple */
 	--orange: #f9761e; /* orange */
 	--yellow: #ffc561; /* yellow */
 	--red: #ff3b7b; /* red */
 }
 
-/* dark mode color palette */
+/* light mode color palette */
 @media (prefers-color-scheme: light) {
 	:root {
-		--background-low: #f6f3f0;
-		--background: #fff;
+		/*--background-low: #746888; */
+		--background-top: #aae8ff; 
+		--background-bottom: #ffcc81; 
+		--background-frame: #8fa7c2; 
 		--text-default: #000;
+		--text-h1: #fff;
+		--inner-glow: #ff9a83; /* salmon orange */
+		--outer-glow: #ff9a83; /* salmon orange */
 		--purple: #6c43fe; /* purple */
 		--orange: #f9761e; /* orange */
 		--yellow: #ffc561; /* yellow */
@@ -30,7 +39,7 @@
 }
 
 body {
-	background-color: var(--background-low);
+	background: linear-gradient(0deg, var(--background-bottom) 0%, var(--background-top) 100%);
 	color: var(--text-default);
 	font-family: Metropolis, Avenir, "Avenir Next";
 	font-size: 1em;
@@ -39,22 +48,25 @@ body {
 	margin-top: 10px;
 }
 
+a {
+	text-decoration: none;
+	color: var(--text-h1);
+	text-shadow: 0 0 10px var(--inner-glow), 0 0 20px var(--outer-glow);
+}
+
 h1 {
-	font-size: 2.5em;
+	font-size: 3em;
 	font-weight: 300;
+	color: var(--text-h1);
+	text-shadow: 0 0 10px var(--inner-glow), 0 0 20px var(--outer-glow);
 }
 
 img {
 	width: 400px;
 }
 
-.artist-name {
-	font-size: 1.25em;
-	padding-top: 5px;
-}
-
 .flex-container-row {
-	background-color: var(--background-low);
+	background-color: var(--background);
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
@@ -64,11 +76,17 @@ img {
 }
 
 .flex-container-col {
-	background-color: var(--background);
+	background-color: var(--background-frame);
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
-	border-radius: 10px;
 	margin: 10px;
 	padding: 20px;
 }
+
+.artist-name {
+	font-size: 1.25em;
+	padding-top: 5px;
+	color: var(--text-h1);
+}
+
