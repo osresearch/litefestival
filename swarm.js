@@ -122,7 +122,7 @@ constructor(n,x,y,w,h)
 	this.wasp = new Bee(w,h);
 	this.wasp.size *= 2;
 	this.wasp.max_a = 2500;
-	this.wasp.max_v = 550;
+	this.wasp.max_v = 750;
 	this.wasp.noise = 200;
 	this.tx = w/2;
 	this.ty = h/2;
@@ -183,12 +183,16 @@ for(let x of x_coords)
 
 // create a swarm that just has a wasp in it
 let wasp = new Swarm(0,0,0,1920*10,1080*10);
-wasp.wasp_color = color(0,0,255);
+wasp.wasp.max_v = 600;
 wasp.wasp.size = 300;
 
 return function()
 {
-	background(0,20);
+	// this is the only way to get it to go solid back
+	blendMode(DIFFERENCE);
+	background(3);
+
+	blendMode(BLEND);
 
 	push();
 
@@ -219,6 +223,10 @@ return function()
 
 		swarm.draw();
 	}
+
+	//stroke(0,0,255);
+	//strokeWeight(10);
+	wasp.wasp_color = color(255);
 
 	wasp.draw();
 
