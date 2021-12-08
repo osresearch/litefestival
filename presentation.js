@@ -38,6 +38,7 @@ function setup()
 	authors[4] = qr_qrs;
 	authors[5] = qr_qrs;
 	authors[6] = qr_qrs;
+	authors[7] = qr_qrs;
 
 	a_pg = createGraphics(1920,1080);
 	b_pg = createGraphics(1920,1080);
