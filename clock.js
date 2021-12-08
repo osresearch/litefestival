@@ -94,6 +94,8 @@ return function()
 	let sec = now.getSeconds();
 
 	//hour = min; min = sec;
+	translate(1920,0);
+	scale(-1,1);
 
 	draw_digit(0, hour / 10);
 	draw_digit(1, hour % 10);
