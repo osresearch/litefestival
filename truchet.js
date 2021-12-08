@@ -79,5 +79,7 @@ return function()
 	}
 
 	t += 0.05;
+
+	draw_qrcode("qrs");
 }
 });

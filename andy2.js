@@ -52,5 +52,7 @@ return function (){
 	// 		rect(1300+x-s/2,550+y-s/2,s,s)
 	// 	}
 	// }
+
+	draw_qrcode("andy");
 }
 });

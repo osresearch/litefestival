@@ -93,6 +93,9 @@ return function()
 
 	//translate(-width/2, -height/2);
 
-	for(let s of rects) s.draw();
+	for(let s of rects)
+		s.draw();
+
+	draw_qrcode("qrs");
 }
 });

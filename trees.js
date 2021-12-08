@@ -124,5 +124,7 @@ return function()
 	}
 
 	pop();
+
+	draw_qrcode("qrs", rect_w/2, 128);
 }
 });

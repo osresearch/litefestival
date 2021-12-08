@@ -177,7 +177,7 @@ return function() {
 	// }
 	
 
-	
+	draw_qrcode("andy");
 }
 
 

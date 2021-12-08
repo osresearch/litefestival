@@ -232,4 +232,6 @@ return function()
 
 
 	pop();
+
+	draw_qrcode("qrs");
 }});

@@ -68,5 +68,6 @@ return function()
 	for(let r of rects)
 		r.draw();
 
+	draw_qrcode("qrs");
 }
 });

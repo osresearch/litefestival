@@ -2,6 +2,9 @@ let a, b;
 let mat = new ProjectionMatrix(null,null,"lites2021");
 let ag, bg;
 let t = 0;
+const rect_w = 175
+const rect_h = 336
+
 
 let sketches = [];
 let art = [];
@@ -17,12 +20,15 @@ let fade_time =  3e3;
 let start = 0;
 let qr_qrs;
 let qr_andy;
-let authors = [];
+let authors = {};
+
+let fading = false;
+let paused = false;
 
 function preload()
 {
-	qr_qrs = loadImage('qrs.png');
-	qr_andy = loadImage('andy.png');
+	authors["qrs"] = loadImage('qrs.png');
+	authors["andy"] = loadImage('andy.png');
 }
 
 function setup()
@@ -30,15 +36,6 @@ function setup()
 	//createCanvas(windowWidth-10, windowHeight-15, WEBGL);
 	createCanvas(windowWidth-0, windowHeight-0, WEBGL);
 	frameRate(50);
-
-	authors[0] = qr_andy;
-	authors[1] = qr_andy;
-	authors[2] = qr_qrs;
-	authors[3] = qr_qrs;
-	authors[4] = qr_qrs;
-	authors[5] = qr_qrs;
-	authors[6] = qr_qrs;
-	authors[7] = qr_qrs;
 
 	a_pg = createGraphics(1920,1080);
 	b_pg = createGraphics(1920,1080);
@@ -49,11 +46,24 @@ function setup()
 	fade_pg.background(0);
 
 	for(let sketch of sketches)
-	{
 		art.push(sketch());
-	}
 
 	mat.load();
+}
+
+function draw_qrcode(author,x=rect_w/2, y=1080 - rect_h/2) //1080-rect_h/2)
+{
+	if (fading)
+		return;
+	if (!(author in authors))
+		return;
+
+	// add the author qr code
+	push();
+	translate(x+128/2,y - 128/2);
+	scale(-1,1);
+	image(authors[author], 0, 0, 128, 128);
+	pop();
 }
 
 function draw()
@@ -67,14 +77,17 @@ function draw()
 	const orig_renderer = orig._renderer;
 
 	// draw into ag
-	let fading = false;
+	fading = false;
 	orig._renderer = a_pg._renderer;
-	push();
-	art[a_art]();
-	pop();
+	if (!paused)
+	{
+		push();
+		art[a_art]();
+		pop();
+	}
 
 	// render b if we are cross fading
-	if (t >= hold_time && art.length != 1)
+	if (!paused && t >= hold_time && art.length != 1)
 	{
 		// draw into bg
 		if (!b_pg)
@@ -115,17 +128,7 @@ function draw()
 		image(fade_pg, 0, 0);
 	} else {
 		image(a_pg, 0, 0);
-
-		// add the author qr code
-		push();
-		scale(-1,1);
-		translate(-175+128/2-30,1080-128-20,1);
-		image(authors[a_art], 0, 0, 128, 128);
-		pop();
 	}
-
-
-	
 
 	if (t < hold_time + fade_time || art.length == 1)
 		return;
@@ -153,6 +156,8 @@ function keyPressed()
 
 	if (key == 's')
 		mat.save();
+	if (key == 'p')
+		paused ^= 1;
 
 	if (key == '1')
 	{

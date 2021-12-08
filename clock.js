@@ -94,6 +94,7 @@ return function()
 	let sec = now.getSeconds();
 
 	//hour = min; min = sec;
+	push();
 	translate(1920,0);
 	scale(-1,1);
 
@@ -101,5 +102,8 @@ return function()
 	draw_digit(1, hour % 10);
 	draw_digit(2, min / 10);
 	draw_digit(3, min % 10);
+	pop();
+
+	draw_qrcode("qrs", rect_w/2, 1080-100);
 }
 });

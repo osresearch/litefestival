@@ -29,7 +29,9 @@ python3 -m http.server
 And then open http://localhost:8000/presentation.html in your browser.
 Press `1` to cycle through the other pieces until your new one is reached.
 
-Once it looks good, send a pull request for your changes!
+Once it looks good, add a qr code for yourself to the `presentation.js` list
+of authors, and add a call to `draw_qrcode("yourname")` to the end of your
+drawing routine.  Then send a pull request for your changes!
 
 The drawing canvas that is provided to your sketch is 1920x1080
 and is a normal 2D renderer.
