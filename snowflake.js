@@ -16,7 +16,7 @@ function Snowflake(x, num_splines, scale_size, rotation_dir) {
 	let speed = random(2, 6);
 	let rotation_rate = 0; 
 	let rotation_state = 0;
-	let max_speed = 0.01;
+	let max_speed = 0.001;
 
 	// snowflake spline settings
 	let radius1 = random(5, 20);
@@ -72,11 +72,13 @@ function Snowflake(x, num_splines, scale_size, rotation_dir) {
 
 	// rotate snowflake, speed up, and don't slow down until mouse is gone
 	this.spin = function(distance) {
-		if (distance < 100) { 	// if we're close
-			if (abs(rotation_rate < max_speed)) {  // and rot is < max speed
-				rotation_rate += max_speed * rotation_dir;
-			}
-		}
+		if (dist == 0)
+			return;
+		if (distance > 100)
+			return;
+		if (abs(rotation_rate > max_speed))
+			return;
+		rotation_rate += (0.1/distance) * rotation_dir;
 	}
 }
 
