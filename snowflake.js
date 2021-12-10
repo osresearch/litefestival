@@ -83,8 +83,15 @@ function Snowflake(x, num_splines, scale_size, rotation_dir) {
 
 return function()
 {
-	background(133, 138, 248);
+	let c1 = color(133,138,248);
+	let c2 = color(0,0,0);
 	noStroke();
+	for(let y=0 ; y < 1080 ; y += 10)
+	{
+		fill(lerpColor(c1, c2, y / (1080-400)));
+		rect(0,y,1920,10);
+	}
+	//background(133, 138, 248);
 	
 	// add snowflakes at random times
 	if (random() < 0.20) {
