@@ -29,6 +29,7 @@ function preload()
 {
 	authors["qrs"] = loadImage('qrs.png');
 	authors["andy"] = loadImage('andy.png');
+	authors["holly"] = loadImage('holly.png');
 }
 
 function setup()

@@ -3,6 +3,9 @@
  */
 sketches.push(function() {
 
+let flurry = [];
+let direction = [-1, 1];
+
 function Snowflake(x, num_splines, scale_size, rotation_dir) {
 	this.xpos = x;
 	this.num_splines = num_splines;
@@ -13,7 +16,7 @@ function Snowflake(x, num_splines, scale_size, rotation_dir) {
 	let speed = random(2, 6);
 	let rotation_rate = 0; 
 	let rotation_state = 0;
-	let max_speed = 0.05;
+	let max_speed = 0.01;
 
 	// snowflake spline settings
 	let radius1 = random(5, 20);
@@ -32,11 +35,20 @@ function Snowflake(x, num_splines, scale_size, rotation_dir) {
 		translate(this.xpos, this.ypos);
 		this.ypos += speed;	
 
-		// adjust rotation rate in relation to how close the mouse is
-		let x_distance = mouseX - this.xpos;
-		let y_distance = mouseY - this.ypos;
-		let radial = sqrt(x_distance * x_distance + y_distance * y_distance);
-		this.spin(radial);
+		// adjust rotation rate in relation to how close another snowflake is
+		let min_dist = 10000;
+		for(let flake of flurry)
+		{
+			if (flake == this)
+				continue;
+
+			let x_distance = flake.xpos - this.xpos;
+			let y_distance = flake.ypos - this.ypos;
+			let radial = sqrt(x_distance * x_distance + y_distance * y_distance);
+			if (min_dist > radial)
+				min_dist = radial;
+		}
+		this.spin(min_dist);
 
 		// impart spin to the snowflake
 		rotate(rotation_state += rotation_rate);	
@@ -69,9 +81,6 @@ function Snowflake(x, num_splines, scale_size, rotation_dir) {
 }
 
 
-let flurry = [];
-let direction = [-1, 1];
-
 return function()
 {
 	background(133, 138, 248);
@@ -98,5 +107,7 @@ return function()
 			flurry[i].display();
 		}
 	}
+
+	draw_qrcode("holly");
 }
 });
