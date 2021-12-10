@@ -24,6 +24,7 @@ let authors = {};
 
 let fading = false;
 let paused = false;
+let holding = false;
 
 function preload()
 {
@@ -77,6 +78,12 @@ function draw()
 	const orig = background(0);
 	const orig_renderer = orig._renderer;
 
+	if (holding)
+	{
+		fill(255,0,0);
+		rect(-width/2,-height/2,20,20);
+	}
+
 	// draw into ag
 	fading = false;
 	orig._renderer = a_pg._renderer;
@@ -88,7 +95,7 @@ function draw()
 	}
 
 	// render b if we are cross fading
-	if (!paused && t >= hold_time && art.length != 1)
+	if (!holding && !paused && t >= hold_time && art.length != 1)
 	{
 		// draw into bg
 		if (!b_pg)
@@ -131,6 +138,9 @@ function draw()
 		image(a_pg, 0, 0);
 	}
 
+	if (paused || holding)
+		return;
+
 	if (t < hold_time + fade_time || art.length == 1)
 		return;
 
@@ -159,6 +169,8 @@ function keyPressed()
 		mat.save();
 	if (key == 'p')
 		paused ^= 1;
+	if (key == 'h')
+		holding ^= 1;
 
 	if (key == '1')
 	{
