@@ -26,6 +26,42 @@ let fading = false;
 let paused = false;
 let holding = false;
 
+// mqtt for doorbell button
+let host = "dashboard";
+let port = 9001;
+let mqtt = new Paho.MQTT.Client(host, port, "litefestival");
+
+function handle_doorbell(msg)
+{
+        let topic = msg.destinationName;
+        let payload_str = msg.payloadString;
+        let payload = JSON.parse(payload_str);
+
+        console.log(topic, payload);
+        if (payload.action == "single")
+	{
+		// switch to the next one
+		start = 0;
+		a_art = (a_art + 1) % art.length;
+	}
+
+        //if (payload.action == "double")
+                //paused = !paused;
+}
+
+function mqtt_connect()
+{
+        mqtt.connect({
+                timeout: 3,
+                onSuccess: () => mqtt.subscribe('zigbee/doorbell-button'),
+        });
+        mqtt.onConnectionLost = () => setTimeout(mqtt_connect, 5000);
+        mqtt.onMessageArrived = handle_doorbell;
+}
+
+mqtt_connect();
+
+
 function preload()
 {
 	authors["qrs"] = loadImage('qrs.png');
