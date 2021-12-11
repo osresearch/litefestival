@@ -16,8 +16,16 @@ constructor(x,y,w,h,dir) {
 	this.t = 2;
 	this.dir = dir;
 	this.speed = 0;
-	this.color2 = color(255,0,0);
-	this.color1 = color(0,0,255);
+	this.color2 = color(
+		255 * x / 1920,
+		0,
+		255 * (1080 - y) / 1080,
+	);
+	this.color1 = color(
+		255 * (1920 - x) / 1920,
+		255 * x /1920,
+		255 * y / 1080
+	);
 }
 
 draw() {
