@@ -1,0 +1,96 @@
+@import url("font-specifications.css");
+/* ^^^ font definitions ^^^ */
+
+/*........................................................*/
+/* color palette definitions for light and dark modes
+/*........................................................*/
+
+/* default (dark) color palette */
+:root {
+	--background-top: #33386a;
+	--background-bottom: #101021;
+	--background-frame-top: #091845;
+	--background-frame-bottom: #101021;
+	--text-default: #fff;
+	--inner-glow: #aaf5f5; /* light cyan */
+	--outer-glow: aqua;
+	--text-h1: #fff;
+	--purple: #6c43fe; /* purple */
+	--orange: #f9761e; /* orange */
+	--yellow: #ffc561; /* yellow */
+	--red: #ff3b7b; /* red */
+}
+
+/* light mode color palette */
+@media (prefers-color-scheme: light) {
+	:root {
+		/*--background-low: #746888; */
+		--background-top: #aae8ff; 
+		--background-bottom: #ffcc81; 
+		--background-frame-top: #c6c9ab; 
+		--background-frame-bottom: #8fa7c2; 
+		--text-default: #000;
+		--text-h1: #fff;
+		--inner-glow: #ff9a83; /* salmon orange */
+		--outer-glow: #ff9a83; /* salmon orange */
+		--purple: #6c43fe; /* purple */
+		--orange: #f9761e; /* orange */
+		--yellow: #ffc561; /* yellow */
+		--red: #ff3b7b; /* red */
+	}
+}
+
+body {
+	background: linear-gradient(0deg, var(--background-bottom) 0%, var(--background-top) 100%);
+	background-repeat: no-repeat;
+	background-color: var(--background-bottom);
+	color: var(--text-default);
+	font-family: Metropolis, Avenir, "Avenir Next";
+	font-size: 1em;
+	font-weight: 300;
+	padding: 10px;
+	margin-top: 10px;
+}
+
+a {
+	text-decoration: none;
+	color: var(--text-h1);
+	text-shadow: 0 0 10px var(--inner-glow), 0 0 20px var(--outer-glow);
+}
+
+h1 {
+	font-size: 3em;
+	font-weight: 300;
+	color: var(--text-h1);
+	text-shadow: 0 0 10px var(--inner-glow), 0 0 20px var(--outer-glow);
+}
+
+img {
+	width: 400px;
+}
+
+.flex-container-row {
+	background-color: var(--background);
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	margin: 5px;
+	padding: 5px;
+}
+
+.flex-container-col {
+	background: linear-gradient(0deg, var(--background-frame-top) 0%, var(--background-frame-bottom) 100%);
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	margin: 10px;
+	padding: 20px;
+}
+
+.artist-name {
+	font-size: 1.25em;
+	padding-top: 5px;
+	color: var(--text-h1);
+}
+
