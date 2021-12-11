@@ -9,7 +9,8 @@
 :root {
 	--background-top: #33386a;
 	--background-bottom: #101021;
-	--background-frame: #112;
+	--background-frame-top: #091845;
+	--background-frame-bottom: #101021;
 	--text-default: #fff;
 	--inner-glow: #aaf5f5; /* light cyan */
 	--outer-glow: aqua;
@@ -26,7 +27,8 @@
 		/*--background-low: #746888; */
 		--background-top: #aae8ff; 
 		--background-bottom: #ffcc81; 
-		--background-frame: #8fa7c2; 
+		--background-frame-top: #c6c9ab; 
+		--background-frame-bottom: #8fa7c2; 
 		--text-default: #000;
 		--text-h1: #fff;
 		--inner-glow: #ff9a83; /* salmon orange */
@@ -78,7 +80,7 @@ img {
 }
 
 .flex-container-col {
-	background: linear-gradient(0deg, var(--background-top) 0%, var(--background-bottom) 100%);
+	background: linear-gradient(0deg, var(--background-frame-top) 0%, var(--background-frame-bottom) 100%);
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
