@@ -18,8 +18,6 @@ let hold_time = 60e3; // ms
 let fade_time =  3e3;
 
 let start = 0;
-let qr_qrs;
-let qr_andy;
 let authors = {};
 
 let fading = false;
@@ -64,9 +62,9 @@ mqtt_connect();
 
 function preload()
 {
-	authors["qrs"] = loadImage('qrs.png');
-	authors["andy"] = loadImage('andy.png');
-	authors["holly"] = loadImage('holly.png');
+	authors["qrs"] = loadImage('images/qrs.png');
+	authors["andy"] = loadImage('images/andy.png');
+	authors["holly"] = loadImage('images/holly.png');
 }
 
 function setup()
