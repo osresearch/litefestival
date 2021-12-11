@@ -65,7 +65,7 @@ h1 {
 	text-shadow: 0 0 10px var(--inner-glow), 0 0 20px var(--outer-glow);
 }
 
-img {
+img.sketch {
 	width: 400px;
 }
 
