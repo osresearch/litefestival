@@ -62,9 +62,8 @@ mqtt_connect();
 
 function preload()
 {
-	authors["qrs"] = loadImage('images/qrs.png');
-	authors["andy"] = loadImage('images/andy.png');
-	authors["holly"] = loadImage('images/holly.png');
+	for(let author of ["qrs", "andy", "holly", "qrcode"])
+		authors[author] = loadImage('images/' + author + '.png');
 }
 
 function setup()
@@ -98,7 +97,8 @@ function draw_qrcode(author,x=rect_w/2, y=1080 - rect_h/2) //1080-rect_h/2)
 	push();
 	translate(x+128/2,y - 128/2);
 	scale(-1,1);
-	image(authors[author], 0, 0, 128, 128);
+	//image(authors[author], 0, 0, 128, 128);
+	image(authors["qrcode"], 0, 0, 128, 128);
 	pop();
 }
 
