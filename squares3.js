@@ -21,7 +21,7 @@ class FireSquare {
   constructor(x, y){
     this.x = x;
     this.y = y;  
-    this.speed = map(abs(width / 2 - this.x), 150, 0, 1, 3);
+    this.speed = map(abs(width / 4 - this.x), 150, 0, 1, 3);
     this.color = lerpColor(redColor, yellowColor, random(1)); //lerpColor(c1, c2, amt)
     this.life = squareLife;
     this.sinOffset = random(1000);
@@ -47,7 +47,7 @@ return function() {
   image(stars, 0, 0);
 
   if(random(1) < .75){
-    const x = randomGaussian(width / 3, spacing);
+    const x = randomGaussian(width / 2, spacing);
     oSquares.push(new FireSquare(x, height * .75));
   }
   
