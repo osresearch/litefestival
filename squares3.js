@@ -1,48 +1,20 @@
 sketches.push(function(){
 
-let squareWidth;
-let squareHeight;
-let spacing;
-const squareLife = 100;
+const squareLife = 200;
 
 const oSquares = [];
 
-let redColor;
-let yellowColor;
-let stars;
-
-function setup() {
-  createCanvas(500, 500);
+let width = 1920;
+let height = 1080;
+let squareWidth = width * .1;   // the squares
+let squareHeight = height * .1; // the squares
+let spacing = width * .2;       // spacing between the squares
   
-  squareWidth = width * .1;   // the squares
-  squareHeight = height * .1; // the squares
-  spacing = width * .2;       // spacing between the squares
+let redColor = color(255, 0, 0);
+let yellowColor = color(255, 255, 0);
   
-  redColor = color(255, 0, 0);
-  yellowColor = color(255, 255, 0);
-  
-  stars = createGraphics(width, height);
-  stars.background(0, 0, 0);
-}
-
-function draw() {
-  image(stars, 0, 0);
-  
-
-  if(random(1) < .75){
-    const x = randomGaussian(width / 2, spacing);
-    oSquares.push(new FireSquare(x, height * .75));
-  }
-  
-  for(let i = oSquares.length - 1; i >= 0; i--) {
-    const fireSquare = oSquares[i];
-    fireSquare.draw();
-    
-    if(fireSquare.y < squareHeight || fireSquare.life < 0){
-      oSquares.splice(i, 1);
-    }
-  }
-}
+let stars = createGraphics(width, height);
+stars.background(0, 0, 0);
 
 
 class FireSquare {
@@ -70,4 +42,23 @@ class FireSquare {
     rect(this.x, this.y, squareWidth, squareHeight, 5);
   }
 }
- } 
+
+return function() {
+  image(stars, 0, 0);
+
+  if(random(1) < .75){
+    const x = randomGaussian(width / 3, spacing);
+    oSquares.push(new FireSquare(x, height * .75));
+  }
+  
+  for(let i = oSquares.length - 1; i >= 0; i--) {
+    const fireSquare = oSquares[i];
+    fireSquare.draw();
+    
+    if(fireSquare.y < squareHeight || fireSquare.life < 0){
+      oSquares.splice(i, 1);
+    }
+  }
+}
+
+});
