@@ -90,8 +90,8 @@ function draw_qrcode(author,x=rect_w/2, y=1080 - rect_h/2) //1080-rect_h/2)
 {
 	if (fading)
 		return;
-	if (!(author in authors))
-		return;
+	//if (!(author in authors))
+		//return;
 
 	// add the author qr code
 	push();

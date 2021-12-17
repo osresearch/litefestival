@@ -59,6 +59,8 @@ return function() {
       oSquares.splice(i, 1);
     }
   }
+
+draw_qrcode("sophi", rect_w/2, 80);
 }
 
 });
