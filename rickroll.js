@@ -28,7 +28,7 @@ let skip = 0;
 
 return function()
 {
-	//background(0, 40);
+	background(0, 20);
 
 	for(let y of y_coords)
 	{
@@ -38,7 +38,7 @@ return function()
 			let g = rickroll_frames.bytes[t++];
 			let b = rickroll_frames.bytes[t++];
 
-			fill(r,g,b, 40);
+			fill(r,g,b, 60);
 			rect(x, y, rect_w, rect_h);
 		}
 	}
