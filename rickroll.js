@@ -55,10 +55,10 @@ return function()
 		t -= 72 * 2;
 
 
-	if (t > rickroll_frames.bytes.length)
+	if (t >= rickroll_frames.bytes.length)
 		t = 0;
 
-	draw_qrcode("qrs", rect_w/2, 1080 - rect_h/2);
+	//draw_qrcode("qrs", rect_w/2, 1080 - rect_h/2);
 
 	push();
 	translate(1920 - rect_w/2 + 64, 1080 - rect_h/2 - 64);
