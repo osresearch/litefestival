@@ -14,7 +14,7 @@ let fade_pg;
 let a_art = 0;
 let b_art = 1;
 
-let hold_time = 60e3; // ms
+let hold_time = 120e3; // ms == 2 minutes
 let fade_time =  3e3;
 
 let start = 0;
