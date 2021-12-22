@@ -1,9 +1,16 @@
 sketches.push(function (){
 let rect_w = 175;
-let rect_h = 336;
+let rect_h = 336/2 - 15;
 
 let x_coords = [0, 204, 504, 708, 1047, 1249, 1550, 1752];
-let y_coords = [0, 372, 745];
+let y_coords = [
+	0,
+	0 + 336/2 + 15,
+	372,
+	372 + 336/2 + 15,
+	745,
+	745 + 336/2 + 15,
+];
 
 
 /*
@@ -28,7 +35,7 @@ let skip = 0;
 
 return function()
 {
-	background(0, 20);
+	background(0, 10);
 
 	for(let y of y_coords)
 	{
@@ -38,20 +45,20 @@ return function()
 			let g = rickroll_frames.bytes[t++];
 			let b = rickroll_frames.bytes[t++];
 
-			fill(r,g,b, 60);
+			fill(r,g,b, 80);
 			rect(x, y, rect_w, rect_h);
 		}
 	}
 
-	skip ^= 1;
-	if (skip)
-		t -= 72;
+	skip = (skip + 1) % 2;
+	if (skip != 0)
+		t -= 72 * 2;
 
 
 	if (t > rickroll_frames.length)
 		t = 0;
 
-	draw_qrcode("qrs");
+	draw_qrcode("qrs", rect_w/2, 1080 - rect_h/2);
 
 	push();
 	translate(1920 - rect_w/2 + 64, 1080 - rect_h/2 - 64);
