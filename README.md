@@ -15,7 +15,7 @@ return function(){
 }});
 ```
 
-And then add it to the `index.html` with the others:
+And then add it to the `presentation.html` with the others:
 ```
   <script language="javascript" type="text/javascript" src="foo.js"></script>
 ```
