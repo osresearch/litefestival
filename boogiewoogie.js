@@ -312,5 +312,7 @@ sketches.push(function() {
 			allUnrolledTimer = null;
 			seed();
 		}
+	draw_qrcode("");
     }
+
 });

@@ -137,5 +137,6 @@ sketches.push(function() {
 
         for (let r of rects)
             r.draw();
+	draw_qrcode("");
     }
 });

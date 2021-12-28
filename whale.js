@@ -211,5 +211,6 @@ sketches.push(function() {
 
 			stellarBodyCandidates.splice(i, 1);
 		}
+	draw_qrcode("");
     }
 });
