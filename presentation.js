@@ -62,8 +62,10 @@ mqtt_connect();
 
 function preload()
 {
-	for(let author of ["qrs", "andy", "holly", "qrcode"])
+	for(let author of ["qrs", "andy", "holly", "rickroll", "qrcode"])
 		authors[author] = loadImage('images/' + author + '.png');
+
+	rickroll_frames = loadBytes('images/rickroll.bin');
 }
 
 function setup()
