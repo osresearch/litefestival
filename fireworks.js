@@ -1,4 +1,6 @@
 sketches.push(function () {
+  const width = 1920;
+  const height = 1280;
   let fireworks = [];
 
   const fireworkBaseColors = [
@@ -32,20 +34,27 @@ sketches.push(function () {
     color(72, 149, 239),
     color(76, 201, 240),
   ];
+  const arrowStartTimings = [0, 1000, 2000, 5000, 500];
+  let positionBuckets = new Array(arrowStartTimings.length).fill(false);
 
   const randomColor = (a) => a[Math.floor(Math.random() * a.length)];
-
   class Firework {
-    constructor() {
+    constructor(positionBucket) {
+      this.positionBucket = positionBucket;
+      const bucketCenter =
+        960 / arrowStartTimings.length +
+        (positionBucket * 1920) / arrowStartTimings.length;
+      const bucketPosNoise =
+        (960 / positionBuckets.length) * (Math.random() - 0.5);
       this.pos = {
-        x: 1280,
-        y: 1920 * Math.random(),
-        x_final: 600 * Math.random(),
+        y: 1280,
+        x: bucketCenter + bucketPosNoise,
+        y_final: 900 * Math.random(),
       };
       this.timing = {
         explode: 5,
-        explosionFadeOut: 40,
-        pauseBeforeBurst: 10,
+        explosionFadeOut: 25,
+        pauseBeforeBurst: 0,
         burst: 70,
         final: 30,
       };
@@ -60,37 +69,37 @@ sketches.push(function () {
 
     shootUp() {
       fill(this.colors.base);
-      rect(this.pos.y, this.pos.x, this.size, this.size * 10);
-      this.pos.x = this.pos.x - 20;
+      rect(this.pos.x, this.pos.y, this.size, this.size * 10);
+      this.pos.y = this.pos.y - 30;
     }
     explode() {
       fill(this.colors.base);
       circle(
-        this.pos.y + 5,
         this.pos.x + 5,
+        this.pos.y + 5,
         20 - (this.timing.explode - 5) * 40
       );
     }
     explosionFadeOut() {
       fill(this.colors.base);
       circle(
-        this.pos.y + 5,
         this.pos.x + 5,
-        20 + this.timing.explosionFadeOut * 5
+        this.pos.y + 5,
+        20 + this.timing.explosionFadeOut * 8
       );
     }
     burst() {
-      if (this.timing.burst % 3 === 0) {
+      if (this.timing.burst % 2 === 0) {
         fill(this.colors.afterBurst);
         circle(
-          this.pos.y + 5 + 200 * (Math.random() - 0.5),
-          this.pos.x + 5 + 200 * (Math.random() - 0.5),
-          this.timing.burst
+          this.pos.x + 5 + 350 * (Math.random() - 0.5),
+          this.pos.y + 5 + 350 * (Math.random() - 0.5),
+          Math.floor(this.timing.burst / 2)
         );
       }
     }
     draw() {
-      if (this.pos.x > this.pos.x_final) {
+      if (this.pos.y > this.pos.y_final) {
         this.shootUp();
       } else if (this.timing.explode > 0) {
         this.timing.explode--;
@@ -98,24 +107,26 @@ sketches.push(function () {
       } else if (this.timing.explosionFadeOut > 0) {
         this.timing.explosionFadeOut--;
         this.explosionFadeOut();
-      } else if (this.timing.pauseBeforeBurst > 0) {
-        this.timing.pauseBeforeBurst--;
-      } else if (this.timing.burst > 0) {
-        this.timing.burst--;
-        this.burst();
-      } else {
-        if (this.timing.final === 0) {
-          this.finished = true;
+      }
+
+      if (this.timing.explosionFadeOut < 5) {
+        if (this.timing.burst > 0) {
+          this.timing.burst--;
+          this.burst();
+        } else {
+          if (this.timing.final === 0) {
+            this.finished = true;
+          }
+          this.timing.final--;
         }
-        this.timing.final--;
       }
     }
   }
 
   // some starting fireworks
-  [0, 500, 1000, 1200, 1800].forEach((x) => {
+  arrowStartTimings.forEach((x, i) => {
     setTimeout(() => {
-      fireworks.push(new Firework());
+      fireworks.push(new Firework(i));
     }, x);
   });
 
@@ -127,8 +138,10 @@ sketches.push(function () {
       firework.draw();
 
       if (firework.finished) {
+        const positionBucket = fireworks[index].positionBucket;
+        positionBuckets[positionBucket] = false;
         delete fireworks[index];
-        fireworks.push(new Firework());
+        fireworks.push(new Firework(positionBucket));
       }
     });
 
