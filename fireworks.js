@@ -34,7 +34,7 @@ sketches.push(function () {
     color(72, 149, 239),
     color(76, 201, 240),
   ];
-  const arrowStartTimings = [0, 1000, 2000, 5000, 500];
+  const arrowStartTimings = [0, 1000, 2000, 5000, 500, 300, 350, 550 ];
   let positionBuckets = new Array(arrowStartTimings.length).fill(false);
 
   const randomColor = (a) => a[Math.floor(Math.random() * a.length)];
@@ -131,8 +131,8 @@ sketches.push(function () {
   });
 
   return function () {
-    blendMode(DIFFERENCE);
-    background(10);
+    //blendMode(DIFFERENCE);
+    background(0, 25);
     blendMode(BLEND);
     fireworks.forEach((firework, index) => {
       firework.draw();
