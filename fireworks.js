@@ -43,7 +43,8 @@ sketches.push(function () {
         x_final: 600 * Math.random(),
       };
       this.timing = {
-        explode: 20,
+        explode: 5,
+        explosionFadeOut: 40,
         pauseBeforeBurst: 10,
         burst: 70,
         final: 30,
@@ -57,42 +58,56 @@ sketches.push(function () {
       this.afterBurstSize = 70;
     }
 
+    shootUp() {
+      fill(this.colors.base);
+      rect(this.pos.y, this.pos.x, this.size, this.size * 10);
+      this.pos.x = this.pos.x - 20;
+    }
+    explode() {
+      fill(this.colors.base);
+      circle(
+        this.pos.y + 5,
+        this.pos.x + 5,
+        20 - (this.timing.explode - 5) * 40
+      );
+    }
+    explosionFadeOut() {
+      fill(this.colors.base);
+      circle(
+        this.pos.y + 5,
+        this.pos.x + 5,
+        20 + this.timing.explosionFadeOut * 5
+      );
+    }
+    burst() {
+      if (this.timing.burst % 3 === 0) {
+        fill(this.colors.afterBurst);
+        circle(
+          this.pos.y + 5 + 200 * (Math.random() - 0.5),
+          this.pos.x + 5 + 200 * (Math.random() - 0.5),
+          this.timing.burst
+        );
+      }
+    }
     draw() {
       if (this.pos.x > this.pos.x_final) {
-        fill(this.colors.base);
-        rect(this.pos.y, this.pos.x, this.size, this.size * 10);
-        this.pos.x = this.pos.x - 10;
+        this.shootUp();
+      } else if (this.timing.explode > 0) {
+        this.timing.explode--;
+        this.explode();
+      } else if (this.timing.explosionFadeOut > 0) {
+        this.timing.explosionFadeOut--;
+        this.explosionFadeOut();
+      } else if (this.timing.pauseBeforeBurst > 0) {
+        this.timing.pauseBeforeBurst--;
+      } else if (this.timing.burst > 0) {
+        this.timing.burst--;
+        this.burst();
       } else {
-        if (this.timing.explode > 15) {
-          this.timing.explode--;
-          fill(this.colors.base);
-          circle(
-            this.pos.y + 5,
-            this.pos.x + 5,
-            20 - (this.timing.explode - 20) * 20
-          );
-        } else if (this.timing.explode > 0) {
-          this.timing.explode--;
-          fill(this.colors.base);
-          circle(this.pos.y + 5, this.pos.x + 5, 20 + this.timing.explode * 5);
-        } else if (this.timing.pauseBeforeBurst > 0) {
-          this.timing.pauseBeforeBurst--;
-        } else {
-          this.timing.burst--;
-          if (this.timing.burst % 3 === 0 && this.timing.burst > 0) {
-            fill(this.colors.afterBurst);
-            circle(
-              this.pos.y + 5 + 200 * (Math.random() - 0.5),
-              this.pos.x + 5 + 200 * (Math.random() - 0.5),
-              this.timing.burst
-            );
-          } else {
-            if (this.timing.final === 0) {
-              this.finished = true;
-            }
-            this.timing.final--;
-          }
+        if (this.timing.final === 0) {
+          this.finished = true;
         }
+        this.timing.final--;
       }
     }
   }
