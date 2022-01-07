@@ -1,4 +1,4 @@
-//by Matt Pinner
+//by Matt Pinner @mpinner
 //using https://osresearch.github.io/p5.projection/
 
 sketches.push(function(){
