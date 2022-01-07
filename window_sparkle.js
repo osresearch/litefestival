@@ -1,3 +1,6 @@
+//by Adelle Lin @adellelin
+//using https://osresearch.github.io/p5.projection/
+
 sketches.push(function(){
 
     // setup code goes here
