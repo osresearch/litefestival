@@ -1,3 +1,6 @@
+//by Matt Pinner
+//using https://osresearch.github.io/p5.projection/
+
 sketches.push(function(){
     let xSteps = width / 150 / 2 + 1;
     let ySteps = height / 150 / 2 + 1;
