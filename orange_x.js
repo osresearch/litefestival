@@ -8,7 +8,7 @@ sketches.push(function(){
 
     // setup code goes here
     function makeCross() {
-        fill(255, 168, 25);
+        //fill(255, 168, 25);
 
         noStroke();
 
@@ -44,6 +44,16 @@ sketches.push(function(){
              rotate(radians(-1 * frameCount));
               }
         
+              colorMode(HSB);
+              let hue = map(i+j, -xSteps-ySteps, xSteps+ySteps, 400, 310); // 37.3, // orange
+              if (hue > 360) hue -= 360;
+              const c = color(
+			hue,
+			100,
+			100, //map(j, +ySteps, -ySteps, 0, 120)
+		);
+        fill(c);
+        //fill(255, 168, 25);
               makeCross();
               pop();
             }
