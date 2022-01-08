@@ -70,7 +70,7 @@ sketches.push(function () {
     shootUp() {
       fill(this.colors.base);
       rect(this.pos.x, this.pos.y, this.size, this.size * 10);
-      this.pos.y = this.pos.y - 30;
+      this.pos.y = this.pos.y - 15;
     }
     explode() {
       fill(this.colors.base);
