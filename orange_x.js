@@ -45,8 +45,10 @@ sketches.push(function(){
               }
         
               colorMode(HSB);
-              let hue = map(i+j, -xSteps-ySteps, xSteps+ySteps, 400, 310); // 37.3, // orange
-              if (hue > 360) hue -= 360;
+              let colorFade = map(i+j*ySteps, -xSteps-(ySteps*ySteps), xSteps+(ySteps*ySteps), 0, 360) // map X's to 0-360
+              colorFade += frameCount/7; // animation slowly
+              let hue = (25 * sin(radians(colorFade)*7)) + 360; // vary a little centering on 373, // orange
+              if (hue > 360) hue -= 360; // snap back to 0-360
               const c = color(
 			hue,
 			100,
