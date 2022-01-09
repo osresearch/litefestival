@@ -4,24 +4,24 @@
 sketches.push(function(){
 
     // setup code goes here
-    let particleSize = 9;
-    let particleSize_2 = 6;
+    let maxParticleSize = 15;
+    let particleSize_2 = 10;
     let particles = [];
     let particlesWithTrails = [];
     var pos_startMillis;
-    var pos_life = 8000;
+    var pos_life = 10000;
     var minLife = 3000;
-    var maxLife = 7000;
+    var maxLife = 15000;
     var buffferMin = 5;
-    var bufferMax = 200;
+    var bufferMax = 80;
     let x_coords= [0, 204, 504, 708, 1047, 1249, 1550, 1752];
     let y_coords = [0, 372, 745];
-    let circle_x = 0
-    let circle_y = 0
+    let pane_x_id = 0
+    let pane_y_id = 0
     let rect_w = 175;
     let rect_h = 336;
-    circle_tr_h = y_coords[circle_y] + rect_h / 2
-    circle_tr_w = x_coords[circle_x] + rect_w / 2
+    var radius = 80;
+    update_circle_position()
     width = 1920
     height = 1080
 
@@ -41,13 +41,13 @@ sketches.push(function(){
           this.particleBufffer = new Array();
           this.life = random(minLife, maxLife)
           this.startMillis = null;
+          // keep track of which pane each particle is in
+          this.pane_id = [pane_x_id, pane_y_id];
         }
       
         move() {
           this.position = this.position.map((a, i) => a + this.speed[i])
-          if (this.position[0] <= 0) {
-            this.speed[0] *= -1;
-          }
+          if (this.position[0] <= 0) this.speed[0] *= -1;
           if (this.position[0] > width) this.speed[0] *= -1;
           if (this.position[1] <= 0) this.speed[1] *= -1;
           if (this.position[1] > height) this.speed[1] *= -1;
@@ -65,7 +65,7 @@ sketches.push(function(){
         display() {
           noStroke();
           fill(255, 72, 155, 255);
-          particleSize = random(2, 6)
+          let particleSize = random(2, maxParticleSize)
           push();
           // random particle sizes
           ellipse(this.position[0], this.position[1], particleSize)
@@ -73,17 +73,27 @@ sketches.push(function(){
       }
       
       displayTrail() {
-          for (let i = 0; i < this.bufferMaxLength; i++) {
-  
+        let trails_bound_l = x_coords[this.pane_id[0]]
+        let trails_bound_b = y_coords[this.pane_id[1]]
+        let trails_bound_w = trails_bound_l + rect_w 
+        let trails_bound_h = trails_bound_b + rect_h
+        this.position = this.position.map((a, i) => a + this.speed[i])
+        if (this.position[0] <= trails_bound_l) this.speed[0] *= -1;
+        if (this.position[0] >= trails_bound_w) this.speed[0] *= -1;
+        if (this.position[1] <= trails_bound_b) this.speed[1] *= -1;
+        if (this.position[1] >= trails_bound_h) this.speed[1] *= -1;
+        
+        for (let i = 0; i < this.bufferMaxLength; i++) {
           fill(255, 165, 0, 255 * (1-i/this.bufferMaxLength));
+
           if (this.particleBufffer[i] === undefined) 
               continue;
           
           push();
           ellipse(this.particleBufffer[i][0], this.particleBufffer[i][1], particleSize_2 * i/this.bufferMaxLength);
           pop();
-      
-          }
+    
+        }
       }
       
         timer() {
@@ -103,11 +113,10 @@ sketches.push(function(){
         }
       
         circlePosition() {
-          var radius = 50
           var angle = Math.PI * random(0,2)
           var theta = Math.PI * random(0,2)
-          this.position = [(Math.cos(angle) * Math.sin(theta) * radius) + circle_tr_w,  
-                           (Math.sin(angle) * Math.sin(theta) * radius) + circle_tr_h]
+          this.position = [(Math.cos(angle) * Math.sin(theta) * radius * 0.1) + circle_trails_w,  
+                           (Math.sin(angle) * Math.sin(theta) * radius * 0.1) + circle_trails_h]
         }
       
         randomPosition() {
@@ -117,10 +126,11 @@ sketches.push(function(){
       }
       
     function update_circle_position() {
-      circle_x = (circle_x + 1) % x_coords.length
-      circle_y = (circle_y + 1) % y_coords.length
-      circle_tr_h = y_coords[circle_y] + rect_h / 2
-      circle_tr_w = x_coords[circle_x] + rect_w / 2
+      // sets the pane for which the splashes are generated and contained
+      pane_x_id = Math.floor(random(0, x_coords.length)) // % x_coords.length
+      pane_y_id = Math.floor(random(0, y_coords.length)) // % y_coords.length
+      circle_trails_w = x_coords[pane_x_id] + rect_w / 2
+      circle_trails_h = y_coords[pane_y_id] + rect_h / 2
     }
       
       
@@ -148,41 +158,40 @@ sketches.push(function(){
     }
     for (let i = 0; i < 100; i++) {
         particlesWithTrails.push(new Particle('circle', 1, 0.6));
+        
     }
     
     // drawing code goes here
     return function(){
         background(2);
-        blendMode(BLEND);
+        // blendMode(BLEND);
         var st = millis()
         //Move and display particles
-        particles.forEach((particle, index) => {
+        particles.forEach((particle) => {
           particle.move();
           particle.display();
         });
       
-        particlesWithTrails.forEach((particle, index) => {
-          particle.move();
-          if (random(0, 1) >= 0) { //sparkle
-            if (particle.displayTrailbool) {
-              particle.fillBuffer();
-              particle.displayTrail()
-            }
-        
-            var t = particle.timer()
-            // if we have passed t=1 then particle dies
-            if (t > 1) {
-                particle.circlePosition();
-                particle.startMillis = null;
-              }
+        particlesWithTrails.forEach((particle) => {
+          if (particle.displayTrailbool) {
+            particle.fillBuffer();
+            particle.displayTrail()
+          }
+      
+          var t = particle.timer()
+          // if we have passed t=1 then particle dies
+          if (t > 1) {
+              particle.pane_id = [pane_x_id, pane_y_id]
+              particle.circlePosition();
+              particle.startMillis = null;
             }
         });
       
         // cicle where emission begins
         push();
-        stroke(255, 72, 155, 50);
+        stroke(255, 72, 155, 200);
         strokeWeight(5);        
-        ellipse(x_coords[circle_x] + rect_w /2, y_coords[circle_y] + rect_h /2, 80);
+        ellipse(x_coords[pane_x_id] + rect_w /2, y_coords[pane_y_id] + rect_h /2, radius);
         pop();
         
         // move position of circle trails based on timer
