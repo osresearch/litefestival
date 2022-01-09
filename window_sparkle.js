@@ -189,7 +189,7 @@ sketches.push(function(){
       
         // cicle where emission begins
         push();
-        stroke(255, 72, 155, 200);
+        stroke(150, 188, 255, 200);
         strokeWeight(5);        
         ellipse(x_coords[pane_x_id] + rect_w /2, y_coords[pane_y_id] + rect_h /2, radius);
         pop();
