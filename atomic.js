@@ -10,16 +10,31 @@ sketches.push(function() {
   const ripple_period = 17;
   const camera_movement_factor = 0.5; // [0, 1]
   const blob_movement_factor = [0.82, 0.8]; // [0, 1]
+  const hue_offset = [0, 120, 240]; // [0, 360]
+  const color_saturation = 1; // [0, 1]
+  const color_value = 1; // [0, 1]
 
-  function h2rgb(hue) {
-    const h = hue / 360;
-    const kr = (5+h*6) % 6;
-    const kg = (3+h*6) % 6;
-    const kb = (1+h*6) % 6;
-    const fr = 1 - max(min(kr, 4-kr, 1), 0);
-    const fg = 1 - max(min(kg, 4-kg, 1), 0);
-    const fb = 1 - max(min(kb, 4-kb, 1), 0);
-    return [fr * 256, fg * 256, fb * 256];
+  // https://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
+  function hsv2rgb(h_deg, s, v) {
+    const h = h_deg / 360;
+
+    const i = floor(h * 6);
+    const f = h * 6 - i;
+    const p = v * (1 - s);
+    const q = v * (1 - f * s);
+    const t = v * (1 - (1 - f) * s);
+
+    let r, g, b;
+    switch (i % 6) {
+        case 0: r = v, g = t, b = p; break;
+        case 1: r = q, g = v, b = p; break;
+        case 2: r = p, g = v, b = t; break;
+        case 3: r = p, g = q, b = v; break;
+        case 4: r = t, g = p, b = v; break;
+        case 5: r = v, g = p, b = q; break;
+    }
+
+    return [r * 255, g * 255, b * 255];
   }
 
   function repel(dx, dy, focus_dist) {
@@ -76,6 +91,9 @@ sketches.push(function() {
     push();
     translate(-focus_x_factor * w * camera_movement_factor / 4, -focus_y_factor * h * camera_movement_factor / 4);
 
+    const base_hue = (t % color_cycle_sec) * 360 / color_cycle_sec;
+    const colors = hue_offset.map(x => hsv2rgb((x + base_hue) % 360, color_saturation, color_value));
+
     for (let i = 0; i < cw; i++) {
       for (let j = 0; j < ch; j++) {
 
@@ -87,14 +105,8 @@ sketches.push(function() {
         const size_factor = map(focus_dist, max_size_aoe, min_size_aoe, 0, 1, true);
         const size = map(size_factor, 0, 1, min_size, max_size, true);
         const [dist_x, dist_y] = repel(dx, dy, focus_dist);
-
-        const hue = (
-          (t % color_cycle_sec) * 360 / 12
-          + (
-            120 * ((i + j) % 3)
-          )
-        ) % 360;
-        const [r, g, b] = h2rgb(hue);
+        const color_index = (i + j) % 3;
+        const [r, g, b] = colors[color_index];
 
         if (size_factor > 0) {
           for (let i = 0; i < ripples; i++) {
