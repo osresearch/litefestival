@@ -1,11 +1,11 @@
 sketches.push(function() {
-  const [w, h] = [1920, 1080];
-  const space = 120;
-  const [min_size_aoe, max_size_aoe] = [0, 400];
-  const [min_size, max_size] = [10, 600];
-  const [min_repel, max_repel] = [0, 200];
-  const [min_repel_aoe, max_repel_aoe] = [350, 700];
-  const color_freq = 12;
+  const [w, h] = [1920, 1080]; // px
+  const space = 120; // px
+  const [min_size_aoe, max_size_aoe] = [0, 400]; // px
+  const [min_size, max_size] = [10, 600]; // px
+  const [min_repel, max_repel] = [0, 200]; // px
+  const [min_repel_aoe, max_repel_aoe] = [350, 700]; // px
+  const color_cycle_sec = 12;
   const [min_ripples, max_ripples] = [0, 2];
   const ripple_period = 17;
   const camera_movement_factor = 0.5; // [0, 1]
@@ -89,7 +89,7 @@ sketches.push(function() {
         const [dist_x, dist_y] = repel(dx, dy, focus_dist);
 
         const hue = (
-          (t % color_freq) * 360 / 12
+          (t % color_cycle_sec) * 360 / 12
           + (
             120 * ((i + j) % 3)
           )
