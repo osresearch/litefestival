@@ -19,7 +19,7 @@ sketches.push(function() {
     const fb = 1 - max(min(kb, 4-kb, 1), 0);
     return [fr * 256, fg * 256, fb * 256];
   }
-  
+
   function repel(dx, dy, focus_dist) {
     if (focus_dist > max_repel_aoe) {
       return [0, 0];
@@ -85,7 +85,7 @@ sketches.push(function() {
         const size_factor = map(focus_dist, max_size_aoe, min_size_aoe, 0, 1, true);
         const size = map(size_factor, 0, 1, min_size, max_size, true);
         const [dist_x, dist_y] = repel(dx, dy, focus_dist);
-        
+
         const hue = (
           (t % color_freq) * 360 / 12
           + (
@@ -93,7 +93,7 @@ sketches.push(function() {
           )
         ) % 360;
         const [r, g, b] = h2rgb(hue);
-        
+
         if (size_factor > 0) {
           for (let i = 0; i < ripples; i++) {
             noFill();
