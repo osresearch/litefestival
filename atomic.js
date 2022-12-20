@@ -8,6 +8,8 @@ sketches.push(function() {
   const color_freq = 12;
   const [min_ripples, max_ripples] = [0, 2];
   const ripple_period = 17;
+  const camera_movement_factor = 0.5; // [0, 1]
+  const blob_movement_factor = [0.82, 0.8]; // [0, 1]
 
   function h2rgb(hue) {
     const h = hue / 360;
@@ -54,13 +56,13 @@ sketches.push(function() {
     let focus_x = map(
       focus_x_factor,
       -1, 1,
-      w/5, w * 4/5,
+      (1 - blob_movement_factor[0]) * w, blob_movement_factor[0] * w,
      );
     let focus_y_factor = cos(ts * 5);
     let focus_y = map(
       focus_y_factor,
       -1, 1,
-      h/5, h * 4/5,
+      (1 - blob_movement_factor[1]) * h, blob_movement_factor[1] * h,
     );
 
     /*
@@ -72,7 +74,7 @@ sketches.push(function() {
     */
 
     push();
-    translate(-focus_x_factor * w / 8, -focus_y_factor * h / 8);
+    translate(-focus_x_factor * w * camera_movement_factor / 4, -focus_y_factor * h * camera_movement_factor / 4);
 
     for (let i = 0; i < cw; i++) {
       for (let j = 0; j < ch; j++) {
