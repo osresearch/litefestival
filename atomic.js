@@ -2,7 +2,7 @@ sketches.push(function() {
   const [w, h] = [1920, 1080];
   const space = 120;
   const [min_size_aoe, max_size_aoe] = [0, 400];
-  const [min_size, max_size] = [10, 500];
+  const [min_size, max_size] = [10, 600];
   const [min_repel, max_repel] = [0, 200];
   const [min_repel_aoe, max_repel_aoe] = [350, 700];
   const color_freq = 12;
