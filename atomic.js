@@ -6,12 +6,10 @@ sketches.push(function() {
   const [min_repel, max_repel] = [0, 200]; // px
   const [min_repel_aoe, max_repel_aoe] = [350, 700]; // px
   const color_cycle_sec = 12;
-  const [min_ripples, max_ripples] = [0, 2];
-  const ripple_period = 17;
-  const camera_movement_factor = 0.5; // [0, 1]
+  const camera_movement_factor = 0.2; // [0, 1]
   const blob_movement_factor = [0.82, 0.8]; // [0, 1]
-  const hue_offset = [0, 120, 240]; // [0, 360]
-  const color_saturation = 1; // [0, 1]
+  const hue_offset = [0, 45, 90]; // [0, 360]
+  const color_saturation = 0.5; // [0, 1]
   const color_value = 1; // [0, 1]
 
   // https://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
@@ -60,11 +58,6 @@ sketches.push(function() {
     blendMode(ADD);
 
     const t = millis() / 1000;
-    const ripples = floor(map(
-      t % ripple_period,
-      0, ripple_period,
-      min_ripples, max_ripples + 1,
-    ));
     const [cw, ch] = [w / space + 1, h / space + 1];
     const ts = t / 10;
     let focus_x_factor = sin(ts * 7);
@@ -90,6 +83,7 @@ sketches.push(function() {
 
     push();
     translate(-focus_x_factor * w * camera_movement_factor / 4, -focus_y_factor * h * camera_movement_factor / 4);
+    noStroke();
 
     const base_hue = (t % color_cycle_sec) * 360 / color_cycle_sec;
     const colors = hue_offset.map(x => hsv2rgb((x + base_hue) % 360, color_saturation, color_value));
@@ -108,28 +102,12 @@ sketches.push(function() {
         const color_index = (i + j) % 3;
         const [r, g, b] = colors[color_index];
 
-        if (size_factor > 0) {
-          for (let i = 0; i < ripples; i++) {
-            noFill();
-            strokeWeight(1);
-            stroke(r, g, b);
-            circle(
-              x + dist_x,
-              y + dist_y,
-              size * (3 + i * 2)/4,
-            );
-          }
-        }
-
-        if (size_factor == 0 || floor(ripples) != max_ripples) {
-          noStroke();
-          fill(r, g, b);
-          circle(
-            x + dist_x,
-            y + dist_y,
-            size / 2,
-          );
-        }
+        fill(r, g, b);
+        circle(
+          x + dist_x,
+          y + dist_y,
+          size / 2,
+        );
       }
     }
 
