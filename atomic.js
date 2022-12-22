@@ -102,7 +102,7 @@ sketches.push(function() {
         const color_index = (i + j) % 3;
         const [r, g, b] = colors[color_index];
 
-        fill(r, g, b);
+        fill(r, g, b, 200);
         circle(
           x + dist_x,
           y + dist_y,
